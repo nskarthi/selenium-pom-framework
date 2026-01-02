@@ -1,0 +1,18 @@
+# Build artifacts
+target/
+bin/
+build/
+*.class
+
+# Selenium logs & drivers
+*.log
+chromedriver.exe
+geckodriver.exe
+IEDriverServer.exe
+
+# IDE specific
+.idea/
+.settings/
+.project
+.classpath
+*.iml
