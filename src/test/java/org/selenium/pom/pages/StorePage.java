@@ -1,12 +1,11 @@
 package org.selenium.pom.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.selenium.pom.base.BasePage;
 
-public class StorePage extends BasePage<Object> {
+public class StorePage extends BasePage<StorePage> {
+    public static final String PAGE_TITLE = "Products – AskOmDch";
 
 	private final By searchTextbox = By.id("woocommerce-product-search-field-0");
 	private final By searchButton = By.cssSelector("button[value='Search']");
@@ -29,6 +28,10 @@ public class StorePage extends BasePage<Object> {
 		super(driver);
 	}
 
+    public String getPageTitle() {
+        return actions.getPageTitle(PAGE_TITLE);
+    }
+	
 	// SEARCH ACTIONS
 	public StorePage searchForProduct(String searchText) {
 		return enterSearchText(searchText).clickSearchButton();
@@ -62,15 +65,15 @@ public class StorePage extends BasePage<Object> {
 	// DATA RETRIEVAL
 
 	public String getProductPrice(String productName) {
-		return actions.getContent(getPriceLocator(productName));
+		return actions.getContents(getPriceLocator(productName));
 	}
 
 	public String getCartCount() {
-		return actions.getContent(cartIconCount);
+		return actions.getContents(cartIconCount);
 	}
 
 	public String getSearchHeaderText() {
-		return actions.getContent(searchResultHeading);
+		return actions.getContents(searchResultHeading);
 	}
 
 	// --- PRIVATE DYNAMIC LOCATORS ---
@@ -93,17 +96,15 @@ public class StorePage extends BasePage<Object> {
 
 	// --- LOADABLE COMPONENT OVERRIDES ---
 	@Override
-	public StorePage load() {
-		return this;
+	protected void load() {
 	}
 
 	@Override
-	public void isLoaded() throws Error {
-		try {
-			wait.until(ExpectedConditions.visibilityOfElementLocated(searchTextbox));
-		} catch (TimeoutException e) {
-			throw new Error("Store Page did not load: Search field not found.");
-		}
+	protected void isLoaded() throws Error {
+        String url = driver.getCurrentUrl();
+        if (!url.contains("store")) {
+            throw new Error("Store Page not loaded. Current URL: " + url);
+        }
 	}
 
 }

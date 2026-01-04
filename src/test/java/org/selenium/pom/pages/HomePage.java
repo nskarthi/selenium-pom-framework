@@ -1,16 +1,18 @@
 package org.selenium.pom.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.selenium.pom.base.BasePage;
+import org.selenium.pom.pages.components.MenuComponent;
 
-public class HomePage extends BasePage<Object> {
+public class HomePage extends BasePage<HomePage> {
+    public static final String PAGE_TITLE = "AskOmDch – Become a Selenium automation expert!";
 	private final By storeMenuLink = By.cssSelector("#menu-item-1227 a");
+	MenuComponent menu;
 
 	public HomePage(WebDriver driver) {
 		super(driver);
+		menu = new MenuComponent(driver);
 	}
 
 	public StorePage clickStoreLink() {
@@ -19,18 +21,22 @@ public class HomePage extends BasePage<Object> {
 		return new StorePage(driver);
 	}
 
+    public String getPageTitle() {
+        return actions.getPageTitle(PAGE_TITLE);
+    }
+	
 	@Override
-	public HomePage load() {
+	protected void load() {
 		driver.get("https://askomdch.com/");
-		return this;
 	}
 
+	// Syntax error, insert "Finally" to complete BlockStatements
+
 	@Override
-	public void isLoaded() throws Error {
-		try {
-			wait.until(ExpectedConditions.visibilityOfElementLocated(storeMenuLink));
-		} catch (TimeoutException e) {
-			throw new Error("Login Page did not load: Store Manu Link is not visible.");
+	protected void isLoaded() throws Error {
+		String url = driver.getCurrentUrl();
+		if (!url.contains("askomdch.com")) {
+			throw new Error("Home Page not loaded. Current URL: " + url);
 		}
 	}
 }
