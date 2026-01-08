@@ -54,12 +54,12 @@ public class BillingSection extends BasePage<BillingSection>  {
 
         if (isNotEmpty(data.country)) {
             // Select Country and handle the internal AJAX refresh for the State dropdown
-			System.out.println("billing country selection");
             actions.selectCountryAndWaitForStateRefresh_new(
                 billingCountryContainer, 
                 select2SearchField, 
                 data.country, 
-                billingStateContainer
+                billingStateContainer,
+                false
             );
 
             // Now it is safe to select the State

@@ -50,10 +50,9 @@ public class ShippingSection extends BasePage<ShippingSection> {
 		}
 
 		if (isNotEmpty(data.country)) {
-			System.out.println("shipping country selection");
 			// Select Country and handle the internal AJAX refresh for the State dropdown
 			actions.selectCountryAndWaitForStateRefresh(shippingCountryContainer, select2SearchField, data.country,
-					shippingStateContainer);
+					shippingStateContainer, false);
 
 			// Now it is safe to select the State
 			if (isNotEmpty(data.state)) {

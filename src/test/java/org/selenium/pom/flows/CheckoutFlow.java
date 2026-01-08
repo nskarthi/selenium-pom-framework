@@ -8,6 +8,7 @@ import org.selenium.pom.pages.CartPage;
 import org.selenium.pom.pages.CheckoutPage;
 import org.selenium.pom.pages.HomePage;
 import org.selenium.pom.pages.StorePage;
+import org.testng.Assert;
 
 public class CheckoutFlow {
     public static final String PAGE_TITLE = "AskOmDch – Become a Selenium automation expert!";
@@ -31,6 +32,12 @@ public class CheckoutFlow {
         }
 
         CartPage cartPage = storePage.clickViewCartOfAProduct(itemsToAdd.get(0));
+        
+        // Validate if all the products are added to the cart
+        for(String item : itemsToAdd) {
+        	Assert.assertTrue(cartPage.isProductInCart(item));
+        }
+        
         return cartPage.clickProceedToCheckout();
     }
 
@@ -44,4 +51,5 @@ public class CheckoutFlow {
             checkoutPage.shipping.fillShippingDetails(shippingData);
         }
     }
+
 }

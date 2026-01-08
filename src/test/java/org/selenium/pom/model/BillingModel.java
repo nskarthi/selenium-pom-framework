@@ -1,8 +1,11 @@
 package org.selenium.pom.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
- * Billing Model with additional unique fields.
+ * @JsonIgnoreProperties handles any unexpected JSON fields gracefully.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BillingModel extends AddressModel<BillingModel> {
 	public String phone = "1234567890";
 	public String email = "john.doe@example.com";
@@ -10,6 +13,10 @@ public class BillingModel extends AddressModel<BillingModel> {
 	public boolean shipToDifferentAddress = false;
 	public String orderNotes = "Please leave at the front door.";
 
+	public BillingModel() {
+		super();
+	}
+	
 	public BillingModel setPhone(String phone) {
 		this.phone = phone;
 		return this;

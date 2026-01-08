@@ -1,12 +1,17 @@
 package org.selenium;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.selenium.pom.base.BaseTest;
 import org.selenium.pom.flows.CheckoutFlow;
 import org.selenium.pom.model.BillingModel;
 import org.selenium.pom.model.PaymentModel;
+import org.selenium.pom.model.Product;
 import org.selenium.pom.model.ShippingModel;
 import org.selenium.pom.pages.BillingSection;
 import org.selenium.pom.pages.CartPage;
@@ -14,6 +19,7 @@ import org.selenium.pom.pages.CheckoutPage;
 import org.selenium.pom.pages.HomePage;
 import org.selenium.pom.pages.StorePage;
 import org.selenium.pom.pages.ThankYouPage;
+import org.selenium.pom.utils.JacksonUtils;
 import org.selenium.pom.utils.MyLogger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -95,8 +101,89 @@ public class MyFirstTestCase extends BaseTest {
 		Assert.assertEquals(thankYouPage.getConfirmationMessage(), "Thank you. Your order has been received.");
 	}
 
+	@Test
+    public void testGuestCheckoutOfOneProductUsingDirectBankTransfer() throws IOException {
+        // Setup Data
+		BillingModel billingAddress = JacksonUtils.deserializeJson("billing_testdata.json", BillingModel.class);
+		List<Integer> listOfProducts = Arrays.asList(1215);
+		List<String> cartItems = new ArrayList<>();
+		
+		for(int productId : listOfProducts) {
+			Product product = new Product(productId);
+			cartItems.add(product.getName());
+		}
+
+        // Use the Reusable Flow
+        CheckoutFlow flow = new CheckoutFlow(new HomePage(driver).get());
+        CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", cartItems);
+
+        flow.fillGuestDetails(checkoutPage, billingAddress, null);
+
+        // Test Specific Action: Place Order
+        ThankYouPage thankYouPage = checkoutPage.payment.selectDirectBankTransfer().placeOrder();
+        Assert.assertEquals(thankYouPage.getConfirmationMessage(), "Thank you. Your order has been received.");
+        System.out.println(thankYouPage.getConfirmationMessage());
+    }
+
+	@Test
+    public void testGuestCheckoutOfManyProductUsingDirectBankTransfer() throws IOException {
+        // Setup Data
+		BillingModel billingAddress = JacksonUtils.deserializeJson("billing_testdata.json", BillingModel.class);
+		List<Integer> listOfProducts = Arrays.asList(1215, 1209, 1209, 1205);
+		List<String> cartItems = new ArrayList<>();
+		
+		for(int productId : listOfProducts) {
+			Product product = new Product(productId);
+			cartItems.add(product.getName());
+		}
+
+        // Use the Reusable Flow
+        CheckoutFlow flow = new CheckoutFlow(new HomePage(driver).get());
+        CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", cartItems);
+
+        flow.fillGuestDetails(checkoutPage, billingAddress, null);
+
+        // Test Specific Action: Place Order
+        ThankYouPage thankYouPage = checkoutPage.payment.selectDirectBankTransfer().placeOrder();
+        Assert.assertEquals(thankYouPage.getConfirmationMessage(), "Thank you. Your order has been received.");
+        System.out.println(thankYouPage.getConfirmationMessage());
+    }
+	
 	//@Test
-    public void guestCheckoutToCompletion() {
+    public void testGuestCheckoutUsingDirectBankTransfer_map() throws IOException {
+        // 1. Get the file stream
+		InputStream is = getClass().getClassLoader().getResourceAsStream("billing_testdata.json");
+        if (is == null) {
+            throw new RuntimeException("JSON file not found in resources!");
+        }
+
+		Map<String, BillingModel> testDataMap;
+		
+        // 2. Call the utility (simplified to not require passing an empty map)
+        testDataMap = JacksonUtils.deserializeJson_map(is);
+
+        // 3. Access the data
+        BillingModel billingAddress = testDataMap.get("tc_001");
+        
+        if (billingAddress != null) {
+            System.out.println("Running Test 1 with First Name: " + billingAddress.toString());
+        }
+
+        // Use the Reusable Flow
+        CheckoutFlow flow = new CheckoutFlow(new HomePage(driver).get());
+        List<String> items = Arrays.asList("Blue Shoes", "Blue Shoes", "Blue Denim Shorts");
+
+        CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", items);
+        flow.fillGuestDetails(checkoutPage, billingAddress, null);
+
+        // Test Specific Action: Place Order
+        ThankYouPage thankYouPage = checkoutPage.payment.selectDirectBankTransfer().placeOrder();
+        Assert.assertEquals(thankYouPage.getConfirmationMessage(), "Thank you. Your order has been received.");
+        System.out.println(thankYouPage.getConfirmationMessage());
+    }
+	
+	//@Test
+    public void testGuestCheckoutUsingDirectBankTransfer_HardCoded() {
         // Setup Data
         List<String> items = Arrays.asList("Blue Shoes", "Blue Shoes", "Blue Denim Shorts");
         BillingModel billing = new BillingModel().setFirstname("Jane").setLastname("Doe").setAddress1("123 Street")
@@ -105,7 +192,7 @@ public class MyFirstTestCase extends BaseTest {
         // Use the Reusable Flow
         CheckoutFlow flow = new CheckoutFlow(new HomePage(driver).get());
         CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", items);
-        
+
         flow.fillGuestDetails(checkoutPage, billing, null);
 
         // Test Specific Action: Place Order
@@ -113,7 +200,29 @@ public class MyFirstTestCase extends BaseTest {
         Assert.assertEquals(thankYouPage.getConfirmationMessage(), "Thank you. Your order has been received.");
     }
 
-	@Test
+    //@Test
+    public void testLoggedInUserCheckoutUsingDirectBankTransfer(){
+        // Setup Data
+        List<String> items = Arrays.asList("Blue Shoes", "Blue Shoes", "Blue Denim Shorts");
+        BillingModel billing = new BillingModel().setFirstname("Jane").setLastname("Doe").setAddress1("123 Street")
+                .setCity("San Francisco").setZip("94102").setEmail("jane@example.com")
+                .setOrderNotes("Leave at front door").setShipToDifferentAddress(true);
+		ShippingModel shipping = new ShippingModel().setFirstname("John").setAddress1("Different Place 456");
+
+        // Use the Reusable Flow
+        CheckoutFlow flow = new CheckoutFlow(new HomePage(driver).get());
+        CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", items);
+
+        checkoutPage.loginAsReturningCustomer("chetan", "Test@1234");
+        
+        flow.fillGuestDetails(checkoutPage, billing, shipping);
+
+        // Test Specific Action: Place Order
+        ThankYouPage thankYouPage = checkoutPage.payment.selectDirectBankTransfer().placeOrder();
+        Assert.assertEquals(thankYouPage.getConfirmationMessage(), "Thank you. Your order has been received.");
+    }
+
+	//@Test
     public void guestStopsAtPlaceOrder() {
         List<String> items = Arrays.asList("Blue Shoes");
         BillingModel billing = new BillingModel().setFirstname("John").setLastname("Doe").setAddress1("456 Ave")

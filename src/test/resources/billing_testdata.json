@@ -1,0 +1,16 @@
+{
+  "firstname": "John",
+  "lastname": "Doe",
+  "company": "ABC Company",
+  "country": "Unnited States (US)",
+  "address1": "123 West Street",
+  "address2": "Apt 101",
+  "city": "New York",
+  "state": "New York",
+  "zip": "10001",
+  "email": "chetan@chetan.com",
+  "phone": "435-336-2643",
+  "createAnAccount": false,
+  "shipToDifferentAddress": false,
+  "orderNotes": "Please leave at the front door"
+}

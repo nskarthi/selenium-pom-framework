@@ -1,0 +1,34 @@
+{
+  "tc_001": {
+      "firstname": "John",
+      "lastname": "Doe",
+      "company": "ABC Company",
+      "country": "Unnited States (US)",
+      "address1": "123 West Street",
+      "address2": "Apt 101",
+      "city": "New York",
+      "state": "New York",
+      "zip": "10001",
+      "email": "chetan@chetan.com",
+      "phone": "435-336-2643",
+      "createAnAccount": false,
+      "shipToDifferentAddress": false,
+      "orderNotes": "Please leave at the front door"
+   },
+   "tc_002": {
+      "firstname": "Mark",
+      "lastname": "Anthony",
+      "company": "Sone Corp",
+      "country": "Unnited States (US)",
+      "address1": "86 Main Street",
+      "address2": "Apt T2",
+      "city": "Hackensack",
+      "state": "New Jersey",
+      "zip": "07601",
+      "email": "mark-anthony@sone.com",
+      "phone": "769-154-3875",
+      "createAnAccount": false,
+      "shipToDifferentAddress": true,
+      "orderNotes": "Leave at the office"
+   }
+}

@@ -21,13 +21,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class ElementActions {
 	private final WebDriverWait wait;
 	private WebDriver driver;
-    private final JavascriptExecutor js;
-	
+	private final JavascriptExecutor js;
+
 	public ElementActions(WebDriver driver) {
 		// Optimization: Use a configurable timeout if possible
 		this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 		this.driver = driver;
-        this.js = (JavascriptExecutor) driver;
+		this.js = (JavascriptExecutor) driver;
 	}
 
 	// Optimization: Clear before typing to prevent appending text
@@ -37,50 +37,50 @@ public class ElementActions {
 		element.sendKeys(text);
 	}
 
-    /**
-     * Enhanced Click: Handles Staleness and provides a JS fallback if 
-     * the element is intercepted by another UI component.
-     */
-    public void click(By locator) {
-        try {
-            wait.ignoring(StaleElementReferenceException.class).until(d -> {
-                WebElement element = d.findElement(locator);
-                // Ensure it's scrolled into view before clicking
-                js.executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
-                element.click();
-                return true;
-            });
-        } catch (ElementClickInterceptedException e) {
-            // Fallback to JS Click if a physical click is blocked
-            js.executeScript("arguments[0].click();", driver.findElement(locator));
-        }
-    }
+	/**
+	 * Enhanced Click: Handles Staleness and provides a JS fallback if the element
+	 * is intercepted by another UI component.
+	 */
+	public void click(By locator) {
+		try {
+			wait.ignoring(StaleElementReferenceException.class).until(d -> {
+				WebElement element = d.findElement(locator);
+				// Ensure it's scrolled into view before clicking
+				js.executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
+				element.click();
+				return true;
+			});
+		} catch (ElementClickInterceptedException e) {
+			// Fallback to JS Click if a physical click is blocked
+			js.executeScript("arguments[0].click();", driver.findElement(locator));
+		}
+	}
 
 	public String getCssValue(By locator, String property) {
 		return wait.until(ExpectedConditions.presenceOfElementLocated(locator)).getCssValue(property).trim();
 	}
 
 	public String getPageTitle(String expectedTitle) {
-	    try {
-	        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-	        wait.until(ExpectedConditions.titleIs(expectedTitle));
-	    } catch (TimeoutException e) {
-	        // Log that the title didn't match within the timeout
-	    }
-	    return driver.getTitle();
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+			wait.until(ExpectedConditions.titleIs(expectedTitle));
+		} catch (TimeoutException e) {
+			// Log that the title didn't match within the timeout
+		}
+		return driver.getTitle();
 	}
-	
-    /**
-     * Centralized wait for URL validation.
-     */
-    public boolean waitForUrlToContain(String urlFraction) {
-        try {
-            return wait.until(ExpectedConditions.urlContains(urlFraction));
-        } catch (Exception e) {
-            return false;
-        }
-    }
-	
+
+	/**
+	 * Centralized wait for URL validation.
+	 */
+	public boolean waitForUrlToContain(String urlFraction) {
+		try {
+			return wait.until(ExpectedConditions.urlContains(urlFraction));
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 	public boolean waitForAttributeToContain(By locator, String attribute, String value) {
 		try {
 			return wait.until(ExpectedConditions.attributeContains(locator, attribute, value));
@@ -93,92 +93,102 @@ public class ElementActions {
 		new Select(wait.until(ExpectedConditions.presenceOfElementLocated(locator))).selectByVisibleText(value);
 	}
 
-    /**
-     * Standard Select2 Selection
-     * Uses normalize-space() in XPath to ignore extra whitespace/newlines in the HTML.
-     */
-    public void selectFromSelect2(By containerLocator, By searchFieldLocator, String itemName) {
-        // Open the dropdown
-        wait.until(ExpectedConditions.elementToBeClickable(containerLocator)).click();
+	/**
+	 * Standard Select2 Selection Uses normalize-space() in XPath to ignore extra
+	 * whitespace/newlines in the HTML.
+	 */
+	public void selectFromSelect2(By containerLocator, By searchFieldLocator, String itemName) {
+		// Open the dropdown
+		wait.until(ExpectedConditions.elementToBeClickable(containerLocator)).click();
 
-        // Type into the search box
-        WebElement searchField = wait.until(ExpectedConditions.visibilityOfElementLocated(searchFieldLocator));
-        searchField.sendKeys(itemName);
+		// Type into the search box
+		WebElement searchField = wait.until(ExpectedConditions.visibilityOfElementLocated(searchFieldLocator));
+		searchField.sendKeys(itemName);
 
-        // Updated XPath: Finds the list item matching the text exactly, ignoring whitespace
-        By itemLocator = By.xpath("//li[contains(@class, 'select2-results__option')][normalize-space()='" + itemName + "']");
-        
-        wait.until(ExpectedConditions.elementToBeClickable(itemLocator)).click();
-    }
+		// Updated XPath: Finds the list item matching the text exactly, ignoring
+		// whitespace
+		By itemLocator = By
+				.xpath("//li[contains(@class, 'select2-results__option')][normalize-space()='" + itemName + "']");
 
-    /**
-     * Optimized Country-to-State refresh logic.
-     */
-    public void selectCountryAndWaitForStateRefresh_new(By countryContainer, By searchField, String countryName, By stateContainer) {
-    	// 1. Get current state element (if it exists) to watch for refresh
-        List<WebElement> stateElements = driver.findElements(stateContainer);
-        WebElement oldState = stateElements.isEmpty() ? null : stateElements.get(0);
+		wait.until(ExpectedConditions.elementToBeClickable(itemLocator)).click();
+	}
 
-        // 2. Select the country
-        click(countryContainer);
-        WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(searchField));
-        input.sendKeys(countryName + Keys.ENTER);
+	/**
+	 * Optimized Country-to-State refresh logic.
+	 * 
+	 * @param expectNavigation Set to true ONLY if the previous action is guaranteed
+	 *                         to trigger a page reload or DOM wipe.
+	 */
+	public void selectCountryAndWaitForStateRefresh_new(By countryContainer, By searchField, String countryName,
+			By stateContainer, boolean expectNavigation) {
+		// 1. Get current state element (if it exists) to watch for refresh
+		List<WebElement> stateElements = driver.findElements(stateContainer);
+		WebElement oldState = stateElements.isEmpty() ? null : stateElements.get(0);
 
-        // 3. Wait for the AJAX reload (Staleness of the old element)
-        if (oldState != null) {
-            try {
-                wait.until(ExpectedConditions.stalenessOf(oldState));
-            } catch (TimeoutException ignored) {
-                // Refresh happened faster than Selenium could catch it or didn't happen
-            }
-        }
+		System.out.println("country: " + countryName);
+		// 2. Select the country
+		click(countryContainer);
+		WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(searchField));
+		input.sendKeys(countryName + Keys.ENTER);
 
-        // 4. Final sync for the new state dropdown
-        wait.until(ExpectedConditions.elementToBeClickable(stateContainer));
-    }
-    
-    /**
-     * Selects a country and waits for the dependent State/Province field to refresh via AJAX.
-     * * @param countryContainer The locator for the country Select2 dropdown.
-     * @param searchField The locator for the Select2 search input.
-     * @param countryName The text to search and select.
-     * @param stateContainer The locator for the state dropdown that refreshes.
-     */
-    public void selectCountryAndWaitForStateRefresh(By countryContainer, By searchField, String countryName, By stateContainer) {
-        // Access the driver directly from the wait object
-        WebElement oldStateElement = null;
+		// 3. Wait for the AJAX reload (Staleness of the old element)
+		if (expectNavigation && oldState != null) {
+			try {
+				wait.until(ExpectedConditions.stalenessOf(oldState));
+			} catch (TimeoutException ignored) {
+				// Refresh happened faster than Selenium could catch it or didn't happen
+			}
+		}
 
-        // 1. Identify the current state dropdown to track staleness (AJAX reload)
-        try {
-            oldStateElement = driver.findElement(stateContainer);
-        } catch (NoSuchElementException e) {
-            // Element not present yet, which is fine for the first selection
-        }
+		// 4. Final sync for the new state dropdown
+		wait.until(ExpectedConditions.elementToBeClickable(stateContainer));
+	}
 
-        // 2. Interact with the Select2 Country dropdown
-        click(countryContainer);
-        WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(searchField));
-        input.sendKeys(countryName + Keys.ENTER);
+	/**
+	 * Selects a country and waits for the dependent State/Province field to refresh
+	 * via AJAX. * @param countryContainer The locator for the country Select2
+	 * dropdown.
+	 * 
+	 * @param searchField    The locator for the Select2 search input.
+	 * @param countryName    The text to search and select.
+	 * @param stateContainer The locator for the state dropdown that refreshes.
+	 * @param expectNavigation Set to true ONLY if the previous action is guaranteed
+	 * 							to trigger a page reload or DOM wipe.
+	 */
+	public void selectCountryAndWaitForStateRefresh(By countryContainer, By searchField, String countryName,
+			By stateContainer, boolean expectNavigation) {
+		// Access the driver directly from the wait object
+		WebElement oldStateElement = null;
 
-        // 3. Handle the AJAX refresh synchronization
-        if (oldStateElement != null) {
-            try {
-                // Wait for the old dropdown to be detached from the DOM
-                wait.until(ExpectedConditions.stalenessOf(oldStateElement));
-            } catch (TimeoutException e) {
-                // If it doesn't become stale, it might have refreshed too fast or failed
-            }
-        }
+		// 1. Identify the current state dropdown to track staleness (AJAX reload)
+		try {
+			oldStateElement = driver.findElement(stateContainer);
+		} catch (NoSuchElementException e) {
+			// Element not present yet, which is fine for the first selection
+		}
 
-        // 4. Wait for the new State element to be ready and scroll it into view
-        WebElement newStateElement = wait.until(ExpectedConditions.elementToBeClickable(stateContainer));
-        
-        ((JavascriptExecutor) driver).executeScript(
-            "arguments[0].scrollIntoView({block: 'center', behavior: 'smooth'});", 
-            newStateElement
-        );
-    }
-    
+		// 2. Interact with the Select2 Country dropdown
+		click(countryContainer);
+		WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(searchField));
+		input.sendKeys(countryName + Keys.ENTER);
+
+		// 3. Handle the AJAX refresh synchronization
+		if (expectNavigation && oldStateElement != null) {
+			try {
+				// Wait for the old dropdown to be detached from the DOM
+				wait.until(ExpectedConditions.stalenessOf(oldStateElement));
+			} catch (TimeoutException e) {
+				// If it doesn't become stale, it might have refreshed too fast or failed
+			}
+		}
+
+		// 4. Wait for the new State element to be ready and scroll it into view
+		WebElement newStateElement = wait.until(ExpectedConditions.elementToBeClickable(stateContainer));
+
+		((JavascriptExecutor) driver)
+				.executeScript("arguments[0].scrollIntoView({block: 'center', behavior: 'smooth'});", newStateElement);
+	}
+
 	public String getContents(By locator) {
 		// Optimization: Use visibility instead of presence for text to ensure it's
 		// rendered

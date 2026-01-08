@@ -66,7 +66,7 @@ public class CartPage extends BasePage<CartPage> {
 	}
 
 	/**
-	 * Example of how to use the data to verify a product exists in the cart.
+	 * Function to verify if a product exists in the cart.
 	 */
 	public boolean isProductInCart(String expectedProductName) {
 		List<List<String>> tableData = getCartTableData();

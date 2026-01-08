@@ -6,8 +6,8 @@
       <class name="org.selenium.MyFirstTestCase">
         <methods>
           <include name="startDriver"/>
-          <include name="guestCheckoutUsingDirectBankTransfer"/>
           <include name="quitDriver"/>
+          <include name="testGuestCheckoutUsingDirectBankTransfer_map"/>
         </methods>
       </class> <!-- org.selenium.MyFirstTestCase -->
     </classes>

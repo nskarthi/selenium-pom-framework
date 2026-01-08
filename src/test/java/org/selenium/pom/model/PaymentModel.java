@@ -6,6 +6,8 @@ package org.selenium.pom.model;
 public class PaymentModel {
     public String paymentMethod = "bacs"; // bacs (Direct Bank Transfer), cod (Cash on Delivery), etc.
 
+	public PaymentModel() {}
+    
     public PaymentModel setPaymentMethod(String method) {
         this.paymentMethod = method;
         return this;
