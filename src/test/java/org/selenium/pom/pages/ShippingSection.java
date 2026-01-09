@@ -50,29 +50,35 @@ public class ShippingSection extends BasePage<ShippingSection> {
 		}
 
 		if (isNotEmpty(data.country)) {
+	        System.out.println("country");
 			// Select Country and handle the internal AJAX refresh for the State dropdown
 			actions.selectCountryAndWaitForStateRefresh(shippingCountryContainer, select2SearchField, data.country,
 					shippingStateContainer, false);
 
 			// Now it is safe to select the State
 			if (isNotEmpty(data.state)) {
+		        System.out.println("state");
 				actions.selectFromSelect2(shippingStateContainer, select2SearchField, data.state);
 			}
 		}
 
 		if (isNotEmpty(data.address1)) {
+	        System.out.println("address1");
 			actions.type(shippingAddress1, data.address1);
 		}
 
 		if (isNotEmpty(data.address2)) {
+	        System.out.println("address2");
 			actions.type(shippingAddress2, data.address2);
 		}
 
 		if (isNotEmpty(data.city)) {
+	        System.out.println("city");
 			actions.type(shippingCity, data.city);
 		}
 
 		if (isNotEmpty(data.zip)) {
+	        System.out.println("zip");
 			actions.type(shippingZip, data.zip);
 		}
 

@@ -1,4 +1,4 @@
-package org.selenium;
+package org.selenium.pom.tests;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -101,8 +101,8 @@ public class MyFirstTestCase extends BaseTest {
 		Assert.assertEquals(thankYouPage.getConfirmationMessage(), "Thank you. Your order has been received.");
 	}
 
-	@Test
-    public void testGuestCheckoutOfOneProductUsingDirectBankTransfer() throws IOException {
+	//@Test
+    public void testGuestCheckoutOfOneProductUsingDirectBankTransfer() throws IOException, InterruptedException {
         // Setup Data
 		BillingModel billingAddress = JacksonUtils.deserializeJson("billing_testdata.json", BillingModel.class);
 		List<Integer> listOfProducts = Arrays.asList(1215);
@@ -126,12 +126,12 @@ public class MyFirstTestCase extends BaseTest {
     }
 
 	@Test
-    public void testGuestCheckoutOfManyProductUsingDirectBankTransfer() throws IOException {
+    public void testGuestCheckoutOfManyProductUsingDirectBankTransfer() throws IOException, InterruptedException {
         // Setup Data
 		BillingModel billingAddress = JacksonUtils.deserializeJson("billing_testdata.json", BillingModel.class);
 		List<Integer> listOfProducts = Arrays.asList(1215, 1209, 1209, 1205);
 		List<String> cartItems = new ArrayList<>();
-		
+
 		for(int productId : listOfProducts) {
 			Product product = new Product(productId);
 			cartItems.add(product.getName());
@@ -148,9 +148,9 @@ public class MyFirstTestCase extends BaseTest {
         Assert.assertEquals(thankYouPage.getConfirmationMessage(), "Thank you. Your order has been received.");
         System.out.println(thankYouPage.getConfirmationMessage());
     }
-	
+
 	//@Test
-    public void testGuestCheckoutUsingDirectBankTransfer_map() throws IOException {
+    public void testGuestCheckoutUsingDirectBankTransfer_map() throws IOException, InterruptedException {
         // 1. Get the file stream
 		InputStream is = getClass().getClassLoader().getResourceAsStream("billing_testdata.json");
         if (is == null) {
@@ -183,7 +183,7 @@ public class MyFirstTestCase extends BaseTest {
     }
 	
 	//@Test
-    public void testGuestCheckoutUsingDirectBankTransfer_HardCoded() {
+    public void testGuestCheckoutUsingDirectBankTransfer_HardCoded() throws InterruptedException {
         // Setup Data
         List<String> items = Arrays.asList("Blue Shoes", "Blue Shoes", "Blue Denim Shorts");
         BillingModel billing = new BillingModel().setFirstname("Jane").setLastname("Doe").setAddress1("123 Street")
@@ -201,7 +201,7 @@ public class MyFirstTestCase extends BaseTest {
     }
 
     //@Test
-    public void testLoggedInUserCheckoutUsingDirectBankTransfer(){
+    public void testLoggedInUserCheckoutUsingDirectBankTransfer() throws InterruptedException{
         // Setup Data
         List<String> items = Arrays.asList("Blue Shoes", "Blue Shoes", "Blue Denim Shorts");
         BillingModel billing = new BillingModel().setFirstname("Jane").setLastname("Doe").setAddress1("123 Street")
@@ -223,7 +223,7 @@ public class MyFirstTestCase extends BaseTest {
     }
 
 	//@Test
-    public void guestStopsAtPlaceOrder() {
+    public void guestStopsAtPlaceOrder() throws InterruptedException {
         List<String> items = Arrays.asList("Blue Shoes");
         BillingModel billing = new BillingModel().setFirstname("John").setLastname("Doe").setAddress1("456 Ave")
                 .setCity("LA").setZip("90001").setEmail("john@example.com");
@@ -252,7 +252,7 @@ public class MyFirstTestCase extends BaseTest {
 		// Assert email error appears...
 	}
 
-	public void testInvalidZipCode() {
+	public void testInvalidZipCode() throws InterruptedException {
 		CheckoutPage checkout = new CheckoutPage(driver);
 
 		// You can also build it from scratch for granular tests

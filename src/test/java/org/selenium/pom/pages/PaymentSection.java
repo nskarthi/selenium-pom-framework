@@ -32,6 +32,7 @@ public class PaymentSection extends BasePage<PaymentSection> {
 	protected void load() {
 		// TODO Auto-generated method stub
 	}
+
 	@Override
 	protected void isLoaded() throws Error {
         String url = driver.getCurrentUrl();

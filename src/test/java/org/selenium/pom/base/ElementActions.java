@@ -30,9 +30,15 @@ public class ElementActions {
 		this.js = (JavascriptExecutor) driver;
 	}
 
-	// Optimization: Clear before typing to prevent appending text
 	public void type(By locator, String text) {
-		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+		System.out.println("inside type");
+		// Wait for visibility first then wait for clickability which returns the element
+		wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+		WebElement element = wait.until(ExpectedConditions.elementToBeClickable(locator));
+		
+		// Below can be used as well to force focus to overcome Firefox focus-sticking
+    	//js.executeScript("arguments[0].scrollIntoView(true);", element);
+    	element.click();
 		element.clear();
 		element.sendKeys(text);
 	}
@@ -149,11 +155,11 @@ public class ElementActions {
 	 * via AJAX. * @param countryContainer The locator for the country Select2
 	 * dropdown.
 	 * 
-	 * @param searchField    The locator for the Select2 search input.
-	 * @param countryName    The text to search and select.
-	 * @param stateContainer The locator for the state dropdown that refreshes.
+	 * @param searchField      The locator for the Select2 search input.
+	 * @param countryName      The text to search and select.
+	 * @param stateContainer   The locator for the state dropdown that refreshes.
 	 * @param expectNavigation Set to true ONLY if the previous action is guaranteed
-	 * 							to trigger a page reload or DOM wipe.
+	 *                         to trigger a page reload or DOM wipe.
 	 */
 	public void selectCountryAndWaitForStateRefresh(By countryContainer, By searchField, String countryName,
 			By stateContainer, boolean expectNavigation) {

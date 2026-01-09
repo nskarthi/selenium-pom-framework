@@ -11,7 +11,7 @@ public class BaseTest {
 
 	@BeforeMethod
 	public void startDriver() {
-		driver = new DriverManager().initializeDriver();
+		driver = new DriverManager().initializeDriver("firefox");
 	}
 
 	@AfterMethod

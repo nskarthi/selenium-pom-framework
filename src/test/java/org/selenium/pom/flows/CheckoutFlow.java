@@ -43,12 +43,14 @@ public class CheckoutFlow {
 
     /**
      * Reusable flow to fill out all billing and shipping details.
+     * @throws InterruptedException 
      */
-    public void fillGuestDetails(CheckoutPage checkoutPage, BillingModel billingData, ShippingModel shippingData) {
+    public void fillGuestDetails(CheckoutPage checkoutPage, BillingModel billingData, ShippingModel shippingData) throws InterruptedException {
         checkoutPage.billing.fillBillingDetails(billingData);
 
         if (billingData.isShipToDifferentAddress() && shippingData != null) {
-            checkoutPage.shipping.fillShippingDetails(shippingData);
+            System.out.println("filling shipping address");
+        	checkoutPage.shipping.fillShippingDetails(shippingData);
         }
     }
 

@@ -3,13 +3,13 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="org.selenium.MyFirstTestCase">
+      <class name="org.selenium.pom.tests.MyFirstTestCase">
         <methods>
           <include name="startDriver"/>
+          <include name="testGuestCheckoutOfManyProductUsingDirectBankTransfer"/>
           <include name="quitDriver"/>
-          <include name="testGuestCheckoutUsingDirectBankTransfer_map"/>
         </methods>
-      </class> <!-- org.selenium.MyFirstTestCase -->
+      </class> <!-- org.selenium.pom.tests.MyFirstTestCase -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

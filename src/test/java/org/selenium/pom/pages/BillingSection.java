@@ -7,17 +7,17 @@ import org.openqa.selenium.WebDriver;
 import org.selenium.pom.base.BasePage;
 import org.selenium.pom.model.BillingModel;
 
-public class BillingSection extends BasePage<BillingSection>  {
+public class BillingSection extends BasePage<BillingSection> {
 	private final By billingFirstName = By.name("billing_first_name");
 	private final By billingLastName = By.name("billing_last_name");
 	private final By billingCompany = By.name("billing_company");
 
 	// CSS selectors for the 'Country' and 'State' Select2 components
-    private final By billingCountryContainer = By.id("select2-billing_country-container");
-    private final By billingStateContainer = By.id("select2-billing_state-container");
+	private final By billingCountryContainer = By.id("select2-billing_country-container");
+	private final By billingStateContainer = By.id("select2-billing_state-container");
 
-    // The search input field that appears for ALL Select2 dropdowns when active
-    private final By select2SearchField = By.cssSelector(".select2-search__field");
+	// The search input field that appears for ALL Select2 dropdowns when active
+	private final By select2SearchField = By.cssSelector(".select2-search__field");
 
 	private final By billingAddress1 = By.name("billing_address_1");
 	private final By billingAddress2 = By.name("billing_address_2");
@@ -36,6 +36,7 @@ public class BillingSection extends BasePage<BillingSection>  {
 	/**
 	 * Fills the billing details based on the provided model. Use this for both
 	 * Positive and Negative testing.
+	 * @throws InterruptedException 
 	 */
 	public BillingSection fillBillingDetails(BillingModel data) {
 		// Strings: Only type if the string is NOT empty.
@@ -52,55 +53,61 @@ public class BillingSection extends BasePage<BillingSection>  {
 			actions.type(billingCompany, data.company);
 		}
 
-        if (isNotEmpty(data.country)) {
-            // Select Country and handle the internal AJAX refresh for the State dropdown
-            actions.selectCountryAndWaitForStateRefresh_new(
-                billingCountryContainer, 
-                select2SearchField, 
-                data.country, 
-                billingStateContainer,
-                false
-            );
+		if (isNotEmpty(data.country)) {
+			// Select Country and handle the internal AJAX refresh for the State dropdown
+			System.out.println("country: " + data.country);
+			actions.selectCountryAndWaitForStateRefresh_new(billingCountryContainer, select2SearchField, data.country,
+					billingStateContainer, false);
 
-            // Now it is safe to select the State
-            if (isNotEmpty(data.state)) {
-                actions.selectFromSelect2(billingStateContainer, select2SearchField, data.state);
-            }
-        }
+			// Now it is safe to select the State
+			if (isNotEmpty(data.state)) {
+				System.out.println("state: " + data.state);
+				actions.selectFromSelect2(billingStateContainer, select2SearchField, data.state);
+			}
+		}
 
 		if (isNotEmpty(data.address1)) {
+			System.out.println("address1: " + data.address1);
 			actions.type(billingAddress1, data.address1);
 		}
 
 		if (isNotEmpty(data.address2)) {
+			System.out.println("address2: " + data.address2);
 			actions.type(billingAddress2, data.address2);
 		}
 
 		if (isNotEmpty(data.city)) {
+			System.out.println("city: " + data.city);
 			actions.type(billingCity, data.city);
 		}
-		
+
 		if (isNotEmpty(data.email)) {
+			System.out.println("email: " + data.email);
 			actions.type(billingEmail, data.email);
 		}
 
 		if (isNotEmpty(data.zip)) {
+			System.out.println("zip: " + data.zip);
 			actions.type(billingZip, data.zip);
 		}
 
 		if (isNotEmpty(data.phone)) {
+			System.out.println("phone: " + data.phone);
 			actions.type(billingPhone, data.phone);
 		}
 
 		if (data.createAnAccount) {
+			System.out.println("createAnAccount: " + data.createAnAccount);
 			actions.click(billingCreateAccountChkBox);
 		}
 
 		if (data.shipToDifferentAddress) {
+			System.out.println("shipToDifferentAddress: " + data.shipToDifferentAddress);
 			actions.click(shipToDifferentAddress);
 		}
 
 		if (isNotEmpty(data.orderNotes)) {
+			System.out.println("orderNotes: " + data.orderNotes);
 			actions.type(orderNotes, data.orderNotes);
 		}
 		return this;
@@ -108,16 +115,17 @@ public class BillingSection extends BasePage<BillingSection>  {
 
 	@Override
 	protected void load() {
-        // Since this is a section of a page, 'load' might navigate to checkout if needed
-        // driver.get("https://yourstore.com/checkout");
+		// Since this is a section of a page, 'load' might navigate to checkout if
+		// needed
+		// driver.get("https://yourstore.com/checkout");
 	}
 
 	@Override
 	protected void isLoaded() throws Error {
-        String url = driver.getCurrentUrl();
-        if (!url.contains("askomdch.com")) {
-            throw new Error("Billing Section not loaded. Current URL: " + url);
-        }
+		String url = driver.getCurrentUrl();
+		if (!url.contains("askomdch.com")) {
+			throw new Error("Billing Section not loaded. Current URL: " + url);
+		}
 	}
 
 }
