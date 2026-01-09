@@ -101,7 +101,7 @@ public class MyFirstTestCase extends BaseTest {
 		Assert.assertEquals(thankYouPage.getConfirmationMessage(), "Thank you. Your order has been received.");
 	}
 
-	//@Test
+	@Test
     public void testGuestCheckoutOfOneProductUsingDirectBankTransfer() throws IOException, InterruptedException {
         // Setup Data
 		BillingModel billingAddress = JacksonUtils.deserializeJson("billing_testdata.json", BillingModel.class);

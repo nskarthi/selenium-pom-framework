@@ -12,6 +12,7 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.selenium.pom.constants.BrowserType;
 
 public class DriverManager {
 
@@ -52,18 +53,19 @@ public class DriverManager {
 	 * @return Configured WebDriver instance
 	 */
 	public WebDriver initializeDriver(String browser) {
+		String runBrowser = System.getProperty("browser", browser); // second parameter is default value
 		WebDriver driver;
 
-		switch (browser.toLowerCase()) {
-		case "chrome":
+		switch (BrowserType.valueOf(runBrowser.trim())) {
+		case CHROME:
 			driver = new ChromeDriver(getChromeOptions());
 			break;
 
-		case "firefox":
+		case FIREFOX:
 			driver = new FirefoxDriver(getFirefoxOptions());
 			break;
 
-		case "edge":
+		case EDGE:
 			driver = new EdgeDriver(getEdgeOptions());
 			break;
 
