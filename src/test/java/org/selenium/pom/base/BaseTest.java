@@ -7,21 +7,30 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 
 public class BaseTest {
+    private ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-	private WebDriver driver;
-	
-	public WebDriver getDriver() {
-		return driver;
-	}
-	
-	@Parameters("browser")
-	@BeforeMethod
-	public void startDriver(String browser) {
-		driver = new DriverManager().initializeDriver(browser);
-	}
+    // Internal helper to set the driver
+    private void setDriver(WebDriver driver) {
+        this.driver.set(driver);
+    }
 
-	@AfterMethod
-	public void quitDriver() {
-		driver.quit();
-	}
+    // Public getter for all test classes to use
+    public WebDriver getDriver() {
+        return this.driver.get();
+    }
+
+    @Parameters("browser")
+    @BeforeMethod
+    public void startDriver(String browser) {
+        setDriver(new DriverManager().initializeDriver(browser));
+    }
+
+    @AfterMethod
+    public void quitDriver() {
+        // Safe access via the getter
+        if (getDriver() != null) {
+            getDriver().quit();
+            driver.remove(); // Important: prevents memory leaks in ThreadLocal
+        }
+    }
 }
