@@ -19,6 +19,7 @@ import org.selenium.pom.pages.CheckoutPage;
 import org.selenium.pom.pages.HomePage;
 import org.selenium.pom.pages.StorePage;
 import org.selenium.pom.pages.ThankYouPage;
+import org.selenium.pom.utils.ConfigLoader;
 import org.selenium.pom.utils.JacksonUtils;
 import org.selenium.pom.utils.MyLogger;
 import org.testng.Assert;
@@ -26,7 +27,7 @@ import org.testng.annotations.Test;
 
 public class MyFirstTestCase extends BaseTest {
 
-	//@Test
+	// @Test
 	public void guestCheckoutUsingDirectBankTransfer() throws InterruptedException {
 		// 1. Data Setup
 		String searchKey = "blue";
@@ -36,7 +37,7 @@ public class MyFirstTestCase extends BaseTest {
 		// 2. Navigation & Initial Validation
 		// Using .get() ensures HomePage is loaded before we interact with it
 		HomePage homePage = new HomePage(getDriver()).get();
-		StorePage storePage = homePage.clickStoreLink();
+		StorePage storePage = homePage.clickStoreMenuLink();
 
 		storePage.searchForProduct(searchKey);
 
@@ -82,9 +83,8 @@ public class MyFirstTestCase extends BaseTest {
 		// 6. Checkout Process
 		CheckoutPage checkoutPage = cartPage.clickProceedToCheckout();
 
-		BillingModel billingData = new BillingModel().setFirstname("Jane").setLastname("Doe")
-				.setAddress1("123 Street").setCity("San Francisco").setZip("94102")
-				.setEmail("jane@example.com").setShipToDifferentAddress(true);
+		BillingModel billingData = new BillingModel().setFirstname("Jane").setLastname("Doe").setAddress1("123 Street")
+				.setCity("San Francisco").setZip("94102").setEmail("jane@example.com").setShipToDifferentAddress(true);
 
 		checkoutPage.billing.fillBillingDetails(billingData);
 
@@ -94,7 +94,8 @@ public class MyFirstTestCase extends BaseTest {
 		}
 
 		Thread.sleep(5000);
-		// The ThankYouPage constructor (via BasePage) will handle isLoaded() verification
+		// The ThankYouPage constructor (via BasePage) will handle isLoaded()
+		// verification
 		ThankYouPage thankYouPage = checkoutPage.payment.selectDirectBankTransfer().placeOrder();
 
 		// 7. Final Validation
@@ -102,142 +103,143 @@ public class MyFirstTestCase extends BaseTest {
 	}
 
 	@Test
-    public void testGuestCheckoutOfOneProductUsingDirectBankTransfer() throws IOException, InterruptedException {
-        // Setup Data
+	public void testGuestCheckoutOfOneProductUsingDirectBankTransfer() throws IOException, InterruptedException {
+		// Setup Data
 		BillingModel billingAddress = JacksonUtils.deserializeJson("billing_testdata.json", BillingModel.class);
 		List<Integer> listOfProducts = Arrays.asList(1215);
 		List<String> cartItems = new ArrayList<>();
-		
-		for(int productId : listOfProducts) {
+
+		for (int productId : listOfProducts) {
 			Product product = new Product(productId);
 			cartItems.add(product.getName());
 		}
 
-        // Use the Reusable Flow
-        CheckoutFlow flow = new CheckoutFlow(new HomePage(getDriver()).get());
-        CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", cartItems);
+		// Use the Reusable Flow
+		CheckoutFlow flow = new CheckoutFlow(new HomePage(getDriver()).get());
+		CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", cartItems);
 
-        flow.fillGuestDetails(checkoutPage, billingAddress, null);
+		flow.fillGuestDetails(checkoutPage, billingAddress, null);
 
-        // Test Specific Action: Place Order
-        ThankYouPage thankYouPage = checkoutPage.payment.selectDirectBankTransfer().placeOrder();
-        Assert.assertEquals(thankYouPage.getConfirmationMessage(), "Thank you. Your order has been received.");
-        System.out.println(thankYouPage.getConfirmationMessage());
-    }
+		// Test Specific Action: Place Order
+		ThankYouPage thankYouPage = checkoutPage.payment.selectDirectBankTransfer().placeOrder();
+		Assert.assertEquals(thankYouPage.getConfirmationMessage(), "Thank you. Your order has been received.");
+		System.out.println(thankYouPage.getConfirmationMessage());
+	}
 
-	@Test
-    public void testGuestCheckoutOfManyProductUsingDirectBankTransfer() throws IOException, InterruptedException {
-        // Setup Data
+	// @Test
+	public void testGuestCheckoutOfManyProductUsingDirectBankTransfer() throws IOException, InterruptedException {
+		// Setup Data
 		BillingModel billingAddress = JacksonUtils.deserializeJson("billing_testdata.json", BillingModel.class);
 		List<Integer> listOfProducts = Arrays.asList(1215, 1209, 1209, 1205);
 		List<String> cartItems = new ArrayList<>();
 
-		for(int productId : listOfProducts) {
+		for (int productId : listOfProducts) {
 			Product product = new Product(productId);
 			cartItems.add(product.getName());
 		}
 
-        // Use the Reusable Flow
-        CheckoutFlow flow = new CheckoutFlow(new HomePage(getDriver()).get());
-        CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", cartItems);
+		// Use the Reusable Flow
+		CheckoutFlow flow = new CheckoutFlow(new HomePage(getDriver()).get());
+		CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", cartItems);
 
-        flow.fillGuestDetails(checkoutPage, billingAddress, null);
+		flow.fillGuestDetails(checkoutPage, billingAddress, null);
 
-        // Test Specific Action: Place Order
-        ThankYouPage thankYouPage = checkoutPage.payment.selectDirectBankTransfer().placeOrder();
-        Assert.assertEquals(thankYouPage.getConfirmationMessage(), "Thank you. Your order has been received.");
-        System.out.println(thankYouPage.getConfirmationMessage());
-    }
+		// Test Specific Action: Place Order
+		ThankYouPage thankYouPage = checkoutPage.payment.selectDirectBankTransfer().placeOrder();
+		Assert.assertEquals(thankYouPage.getConfirmationMessage(), "Thank you. Your order has been received.");
+		System.out.println(thankYouPage.getConfirmationMessage());
+	}
 
-	//@Test
-    public void testGuestCheckoutUsingDirectBankTransfer_map() throws IOException, InterruptedException {
-        // 1. Get the file stream
+	// @Test
+	public void testGuestCheckoutUsingDirectBankTransfer_map() throws IOException, InterruptedException {
+		// 1. Get the file stream
 		InputStream is = getClass().getClassLoader().getResourceAsStream("billing_testdata.json");
-        if (is == null) {
-            throw new RuntimeException("JSON file not found in resources!");
-        }
+		if (is == null) {
+			throw new RuntimeException("JSON file not found in resources!");
+		}
 
 		Map<String, BillingModel> testDataMap;
-		
-        // 2. Call the utility (simplified to not require passing an empty map)
-        testDataMap = JacksonUtils.deserializeJson_map(is);
 
-        // 3. Access the data
-        BillingModel billingAddress = testDataMap.get("tc_001");
-        
-        if (billingAddress != null) {
-            System.out.println("Running Test 1 with First Name: " + billingAddress.toString());
-        }
+		// 2. Call the utility (simplified to not require passing an empty map)
+		testDataMap = JacksonUtils.deserializeJson_map(is);
 
-        // Use the Reusable Flow
-        CheckoutFlow flow = new CheckoutFlow(new HomePage(getDriver()).get());
-        List<String> items = Arrays.asList("Blue Shoes", "Blue Shoes", "Blue Denim Shorts");
+		// 3. Access the data
+		BillingModel billingAddress = testDataMap.get("tc_001");
 
-        CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", items);
-        flow.fillGuestDetails(checkoutPage, billingAddress, null);
+		if (billingAddress != null) {
+			System.out.println("Running Test 1 with First Name: " + billingAddress.toString());
+		}
 
-        // Test Specific Action: Place Order
-        ThankYouPage thankYouPage = checkoutPage.payment.selectDirectBankTransfer().placeOrder();
-        Assert.assertEquals(thankYouPage.getConfirmationMessage(), "Thank you. Your order has been received.");
-        System.out.println(thankYouPage.getConfirmationMessage());
-    }
-	
-	//@Test
-    public void testGuestCheckoutUsingDirectBankTransfer_HardCoded() throws InterruptedException {
-        // Setup Data
-        List<String> items = Arrays.asList("Blue Shoes", "Blue Shoes", "Blue Denim Shorts");
-        BillingModel billing = new BillingModel().setFirstname("Jane").setLastname("Doe").setAddress1("123 Street")
-                .setCity("San Francisco").setZip("94102").setEmail("jane@example.com");
+		// Use the Reusable Flow
+		CheckoutFlow flow = new CheckoutFlow(new HomePage(getDriver()).get());
+		List<String> items = Arrays.asList("Blue Shoes", "Blue Shoes", "Blue Denim Shorts");
 
-        // Use the Reusable Flow
-        CheckoutFlow flow = new CheckoutFlow(new HomePage(getDriver()).get());
-        CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", items);
+		CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", items);
+		flow.fillGuestDetails(checkoutPage, billingAddress, null);
 
-        flow.fillGuestDetails(checkoutPage, billing, null);
+		// Test Specific Action: Place Order
+		ThankYouPage thankYouPage = checkoutPage.payment.selectDirectBankTransfer().placeOrder();
+		Assert.assertEquals(thankYouPage.getConfirmationMessage(), "Thank you. Your order has been received.");
+		System.out.println(thankYouPage.getConfirmationMessage());
+	}
 
-        // Test Specific Action: Place Order
-        ThankYouPage thankYouPage = checkoutPage.payment.selectDirectBankTransfer().placeOrder();
-        Assert.assertEquals(thankYouPage.getConfirmationMessage(), "Thank you. Your order has been received.");
-    }
+	// @Test
+	public void testGuestCheckoutUsingDirectBankTransfer_HardCoded() throws InterruptedException {
+		// Setup Data
+		List<String> items = Arrays.asList("Blue Shoes", "Blue Shoes", "Blue Denim Shorts");
+		BillingModel billing = new BillingModel().setFirstname("Jane").setLastname("Doe").setAddress1("123 Street")
+				.setCity("San Francisco").setZip("94102").setEmail("jane@example.com");
 
-    //@Test
-    public void testLoggedInUserCheckoutUsingDirectBankTransfer() throws InterruptedException{
-        // Setup Data
-        List<String> items = Arrays.asList("Blue Shoes", "Blue Shoes", "Blue Denim Shorts");
-        BillingModel billing = new BillingModel().setFirstname("Jane").setLastname("Doe").setAddress1("123 Street")
-                .setCity("San Francisco").setZip("94102").setEmail("jane@example.com")
-                .setOrderNotes("Leave at front door").setShipToDifferentAddress(true);
+		// Use the Reusable Flow
+		CheckoutFlow flow = new CheckoutFlow(new HomePage(getDriver()).get());
+		CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", items);
+
+		flow.fillGuestDetails(checkoutPage, billing, null);
+
+		// Test Specific Action: Place Order
+		ThankYouPage thankYouPage = checkoutPage.payment.selectDirectBankTransfer().placeOrder();
+		Assert.assertEquals(thankYouPage.getConfirmationMessage(), "Thank you. Your order has been received.");
+	}
+
+	@Test
+	public void testLoggedInUserCheckoutUsingDirectBankTransfer() throws InterruptedException {
+		// Setup Data
+		List<String> items = Arrays.asList("Blue Shoes", "Blue Shoes", "Blue Denim Shorts");
+		BillingModel billing = new BillingModel().setFirstname("Jane").setLastname("Doe").setAddress1("123 Street")
+				.setCity("San Francisco").setZip("94102").setEmail("jane@example.com")
+				.setOrderNotes("Leave at front door").setShipToDifferentAddress(true);
 		ShippingModel shipping = new ShippingModel().setFirstname("John").setAddress1("Different Place 456");
 
-        // Use the Reusable Flow
-        CheckoutFlow flow = new CheckoutFlow(new HomePage(getDriver()).get());
-        CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", items);
+		// Use the Reusable Flow
+		CheckoutFlow flow = new CheckoutFlow(new HomePage(getDriver()).get());
+		CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", items);
 
-        checkoutPage.loginAsReturningCustomer("chetan", "Test@1234");
-        
-        flow.fillGuestDetails(checkoutPage, billing, shipping);
+		checkoutPage.loginAsReturningCustomer(ConfigLoader.getInstance().getUsername(),
+				ConfigLoader.getInstance().getPassword());
 
-        // Test Specific Action: Place Order
-        ThankYouPage thankYouPage = checkoutPage.payment.selectDirectBankTransfer().placeOrder();
-        Assert.assertEquals(thankYouPage.getConfirmationMessage(), "Thank you. Your order has been received.");
-    }
+		flow.fillGuestDetails(checkoutPage, billing, shipping);
 
-	//@Test
-    public void guestStopsAtPlaceOrder() throws InterruptedException {
-        List<String> items = Arrays.asList("Blue Shoes");
-        BillingModel billing = new BillingModel().setFirstname("John").setLastname("Doe").setAddress1("456 Ave")
-                .setCity("LA").setZip("90001").setEmail("john@example.com");
-
-        CheckoutFlow flow = new CheckoutFlow(new HomePage(getDriver()).get());
-        CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", items);
-
-        flow.fillGuestDetails(checkoutPage, billing, null);
-
-        // Test Specific Requirement: Just go back home instead of placing order
-        HomePage homePage = checkoutPage.menu.navigateToHomePage();
-        Assert.assertEquals(homePage.getPageTitle(), HomePage.PAGE_TITLE);
+		// Test Specific Action: Place Order
+		ThankYouPage thankYouPage = checkoutPage.payment.selectDirectBankTransfer().placeOrder();
+		Assert.assertEquals(thankYouPage.getConfirmationMessage(), "Thank you. Your order has been received.");
 	}
-	
+
+	// @Test
+	public void guestStopsAtPlaceOrder() throws InterruptedException {
+		List<String> items = Arrays.asList("Blue Shoes");
+		BillingModel billing = new BillingModel().setFirstname("John").setLastname("Doe").setAddress1("456 Ave")
+				.setCity("LA").setZip("90001").setEmail("john@example.com");
+
+		CheckoutFlow flow = new CheckoutFlow(new HomePage(getDriver()).get());
+		CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", items);
+
+		flow.fillGuestDetails(checkoutPage, billing, null);
+
+		// Test Specific Requirement: Just go back home instead of placing order
+		HomePage homePage = checkoutPage.menu.navigateToHomePage();
+		Assert.assertEquals(homePage.getPageTitle(), HomePage.PAGE_TITLE);
+	}
+
 	public void testMissingEmailError() {
 		CheckoutPage checkout = new CheckoutPage(getDriver());
 

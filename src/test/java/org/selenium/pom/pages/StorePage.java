@@ -28,6 +28,10 @@ public class StorePage extends BasePage<StorePage> {
 		super(driver);
 	}
 
+    public String getPageHeading() {
+        return actions.getContents(searchResultHeading);
+    }
+
     public String getPageTitle() {
         return actions.getPageTitle(PAGE_TITLE);
     }
@@ -95,8 +99,8 @@ public class StorePage extends BasePage<StorePage> {
 	}
 
 	// --- LOADABLE COMPONENT OVERRIDES ---
-	@Override
 	protected void load() {
+		load("/store");
 	}
 
 	@Override

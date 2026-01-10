@@ -23,6 +23,9 @@ public class ElementActions {
 	private WebDriver driver;
 	private final JavascriptExecutor js;
 
+	// Locator for the common checkout overlay
+	private final By checkoutOverlay = By.cssSelector(".blockUI.blockOverlay");
+	
 	public ElementActions(WebDriver driver) {
 		// Optimization: Use a configurable timeout if possible
 		this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
@@ -30,15 +33,41 @@ public class ElementActions {
 		this.js = (JavascriptExecutor) driver;
 	}
 
+	/**
+	 * Waits for the WooCommerce 'Processing' overlay to disappear.
+	 * This is critical for checkout pages to avoid ClickInterceptedExceptions.
+	 */
+	public void waitForOverlayToDisappear() {
+		try {
+			// Short wait to see if overlay appears, then wait for it to vanish
+			new WebDriverWait(driver, Duration.ofMillis(500))
+				.until(ExpectedConditions.presenceOfElementLocated(checkoutOverlay));
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(checkoutOverlay));
+		} catch (TimeoutException e) {
+			// Overlay never appeared or already gone, continue
+		}
+	}
+
 	public void type(By locator, String text) {
-		System.out.println("inside type");
-		// Wait for visibility first then wait for clickability which returns the element
-		wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-		WebElement element = wait.until(ExpectedConditions.elementToBeClickable(locator));
+		// 1. Sync: Ensure page isn't busy with AJAX
+		waitForOverlayToDisappear();
 		
-		// Below can be used as well to force focus to overcome Firefox focus-sticking
-    	//js.executeScript("arguments[0].scrollIntoView(true);", element);
-    	element.click();
+		// 2. Wait for visibility
+		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+
+		// 3. Scroll to the middle (prevents sticky headers/labels blocking the top)
+		js.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});", element);
+		
+		try {
+			// 4. Standard click attempt
+			wait.until(ExpectedConditions.elementToBeClickable(element)).click();
+		} catch (ElementClickInterceptedException e) {
+			// 5. Hard Fallback: If still intercepted by a label or overlay, use JS to focus
+			System.out.println("Click intercepted for " + locator + ". Using JS fallback.");
+			js.executeScript("arguments[0].click();", element);
+		}
+
+		// 6. Interaction
 		element.clear();
 		element.sendKeys(text);
 	}
@@ -48,6 +77,7 @@ public class ElementActions {
 	 * is intercepted by another UI component.
 	 */
 	public void click(By locator) {
+		waitForOverlayToDisappear();
 		try {
 			wait.ignoring(StaleElementReferenceException.class).until(d -> {
 				WebElement element = d.findElement(locator);
@@ -75,7 +105,7 @@ public class ElementActions {
 		}
 		return driver.getTitle();
 	}
-
+	
 	/**
 	 * Centralized wait for URL validation.
 	 */
@@ -96,6 +126,7 @@ public class ElementActions {
 	}
 
 	public void select(By locator, String value) {
+		waitForOverlayToDisappear();
 		new Select(wait.until(ExpectedConditions.presenceOfElementLocated(locator))).selectByVisibleText(value);
 	}
 
@@ -104,6 +135,7 @@ public class ElementActions {
 	 * whitespace/newlines in the HTML.
 	 */
 	public void selectFromSelect2(By containerLocator, By searchFieldLocator, String itemName) {
+		waitForOverlayToDisappear();
 		// Open the dropdown
 		wait.until(ExpectedConditions.elementToBeClickable(containerLocator)).click();
 

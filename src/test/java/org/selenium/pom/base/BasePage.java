@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.LoadableComponent;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.selenium.pom.pages.components.MenuComponent;
+import org.selenium.pom.utils.ConfigLoader;
 
 public abstract class BasePage<T extends BasePage<T>> extends LoadableComponent<T> {
 	protected WebDriver driver;
@@ -24,8 +25,10 @@ public abstract class BasePage<T extends BasePage<T>> extends LoadableComponent<
 	 * Selenium requires this. If isLoaded() throws an Error, this method is
 	 * executed to navigate to the page.
 	 */
-	@Override
-	protected abstract void load();
+	protected void load(String endPoint) {
+		driver.get(ConfigLoader.getInstance().getBaseUrl() + endPoint);
+		// driver.get("https://askomdch.com/");
+	};
 
 	/**
 	 * Selenium requires this. Use it to check if the page is ready. Use Assertions

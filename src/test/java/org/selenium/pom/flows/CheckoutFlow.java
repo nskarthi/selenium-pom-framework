@@ -24,7 +24,7 @@ public class CheckoutFlow {
      * with items in their cart.
      */
     public CheckoutPage navigateToCheckoutWithProducts(String searchKey, List<String> itemsToAdd) {
-        StorePage storePage = homePage.clickStoreLink();
+        StorePage storePage = homePage.clickStoreMenuLink();
         storePage.searchForProduct(searchKey);
 
         for (String item : itemsToAdd) {

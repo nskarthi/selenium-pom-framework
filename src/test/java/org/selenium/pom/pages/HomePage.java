@@ -15,7 +15,7 @@ public class HomePage extends BasePage<HomePage> {
 		menu = new MenuComponent(driver);
 	}
 
-	public StorePage clickStoreLink() {
+	public StorePage clickStoreMenuLink() {
 		isLoaded();
 		actions.click(storeMenuLink);
 		return new StorePage(driver);
@@ -24,13 +24,6 @@ public class HomePage extends BasePage<HomePage> {
     public String getPageTitle() {
         return actions.getPageTitle(PAGE_TITLE);
     }
-	
-	@Override
-	protected void load() {
-		driver.get("https://askomdch.com/");
-	}
-
-	// Syntax error, insert "Finally" to complete BlockStatements
 
 	@Override
 	protected void isLoaded() throws Error {
@@ -38,5 +31,10 @@ public class HomePage extends BasePage<HomePage> {
 		if (!url.contains("askomdch.com")) {
 			throw new Error("Home Page not loaded. Current URL: " + url);
 		}
+	}
+
+	@Override
+	protected void load() {
+		load("/");
 	}
 }

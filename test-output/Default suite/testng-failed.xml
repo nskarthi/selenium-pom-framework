@@ -3,13 +3,13 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="org.selenium.pom.tests.MyFirstTestCase">
+      <class name="org.selenium.pom.tests.NavigationTest">
         <methods>
           <include name="startDriver"/>
-          <include name="testGuestCheckoutOfManyProductUsingDirectBankTransfer"/>
           <include name="quitDriver"/>
+          <include name="testnavigateFromHomeToStoreUsingMainMenu"/>
         </methods>
-      </class> <!-- org.selenium.pom.tests.MyFirstTestCase -->
+      </class> <!-- org.selenium.pom.tests.NavigationTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

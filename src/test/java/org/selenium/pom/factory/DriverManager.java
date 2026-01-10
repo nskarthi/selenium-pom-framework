@@ -53,7 +53,8 @@ public class DriverManager {
 	 * @return Configured WebDriver instance
 	 */
 	public WebDriver initializeDriver(String browser) {
-		String runBrowser = System.getProperty("browser", browser); // second parameter is default value
+		// second parameter is default value
+		String runBrowser = System.getProperty("browser", browser);
 		WebDriver driver;
 
 		switch (BrowserType.valueOf(runBrowser.trim())) {

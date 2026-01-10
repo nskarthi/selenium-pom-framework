@@ -33,7 +33,6 @@ public class BaseTest {
             System.out.println("CURRENT THREAD: " + Thread.currentThread().getId());
             getDriver().quit();
             driver.remove(); // Important: prevents memory leaks in ThreadLocal
-            
         }
     }
 }

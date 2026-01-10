@@ -33,10 +33,18 @@
 
 	<dependencies>
 
+		<!-- Main Selenium Library -->
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>4.17.0</version>
+			<version>4.39.0</version>
+		</dependency>
+
+		<!-- Specific DevTools support for Chrome 143 -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-devtools-v143</artifactId>
+			<version>4.39.0</version>
 		</dependency>
 
 		<dependency>
