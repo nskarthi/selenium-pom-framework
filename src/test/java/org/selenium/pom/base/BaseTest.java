@@ -8,8 +8,12 @@ import org.testng.annotations.Parameters;
 
 public class BaseTest {
 
-	public WebDriver driver;
-
+	private WebDriver driver;
+	
+	public WebDriver getDriver() {
+		return driver;
+	}
+	
 	@Parameters("browser")
 	@BeforeMethod
 	public void startDriver(String browser) {

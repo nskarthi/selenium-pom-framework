@@ -35,7 +35,7 @@ public class MyFirstTestCase extends BaseTest {
 
 		// 2. Navigation & Initial Validation
 		// Using .get() ensures HomePage is loaded before we interact with it
-		HomePage homePage = new HomePage(driver).get();
+		HomePage homePage = new HomePage(getDriver()).get();
 		StorePage storePage = homePage.clickStoreLink();
 
 		storePage.searchForProduct(searchKey);
@@ -114,7 +114,7 @@ public class MyFirstTestCase extends BaseTest {
 		}
 
         // Use the Reusable Flow
-        CheckoutFlow flow = new CheckoutFlow(new HomePage(driver).get());
+        CheckoutFlow flow = new CheckoutFlow(new HomePage(getDriver()).get());
         CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", cartItems);
 
         flow.fillGuestDetails(checkoutPage, billingAddress, null);
@@ -138,7 +138,7 @@ public class MyFirstTestCase extends BaseTest {
 		}
 
         // Use the Reusable Flow
-        CheckoutFlow flow = new CheckoutFlow(new HomePage(driver).get());
+        CheckoutFlow flow = new CheckoutFlow(new HomePage(getDriver()).get());
         CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", cartItems);
 
         flow.fillGuestDetails(checkoutPage, billingAddress, null);
@@ -170,7 +170,7 @@ public class MyFirstTestCase extends BaseTest {
         }
 
         // Use the Reusable Flow
-        CheckoutFlow flow = new CheckoutFlow(new HomePage(driver).get());
+        CheckoutFlow flow = new CheckoutFlow(new HomePage(getDriver()).get());
         List<String> items = Arrays.asList("Blue Shoes", "Blue Shoes", "Blue Denim Shorts");
 
         CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", items);
@@ -190,7 +190,7 @@ public class MyFirstTestCase extends BaseTest {
                 .setCity("San Francisco").setZip("94102").setEmail("jane@example.com");
 
         // Use the Reusable Flow
-        CheckoutFlow flow = new CheckoutFlow(new HomePage(driver).get());
+        CheckoutFlow flow = new CheckoutFlow(new HomePage(getDriver()).get());
         CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", items);
 
         flow.fillGuestDetails(checkoutPage, billing, null);
@@ -210,7 +210,7 @@ public class MyFirstTestCase extends BaseTest {
 		ShippingModel shipping = new ShippingModel().setFirstname("John").setAddress1("Different Place 456");
 
         // Use the Reusable Flow
-        CheckoutFlow flow = new CheckoutFlow(new HomePage(driver).get());
+        CheckoutFlow flow = new CheckoutFlow(new HomePage(getDriver()).get());
         CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", items);
 
         checkoutPage.loginAsReturningCustomer("chetan", "Test@1234");
@@ -228,7 +228,7 @@ public class MyFirstTestCase extends BaseTest {
         BillingModel billing = new BillingModel().setFirstname("John").setLastname("Doe").setAddress1("456 Ave")
                 .setCity("LA").setZip("90001").setEmail("john@example.com");
 
-        CheckoutFlow flow = new CheckoutFlow(new HomePage(driver).get());
+        CheckoutFlow flow = new CheckoutFlow(new HomePage(getDriver()).get());
         CheckoutPage checkoutPage = flow.navigateToCheckoutWithProducts("blue", items);
 
         flow.fillGuestDetails(checkoutPage, billing, null);
@@ -239,7 +239,7 @@ public class MyFirstTestCase extends BaseTest {
 	}
 	
 	public void testMissingEmailError() {
-		CheckoutPage checkout = new CheckoutPage(driver);
+		CheckoutPage checkout = new CheckoutPage(getDriver());
 
 		// APPROACH: Take a valid model and "break" only what you need
 		// Here, we create a valid user but intentionally leave Email as empty string
@@ -253,7 +253,7 @@ public class MyFirstTestCase extends BaseTest {
 	}
 
 	public void testInvalidZipCode() throws InterruptedException {
-		CheckoutPage checkout = new CheckoutPage(driver);
+		CheckoutPage checkout = new CheckoutPage(getDriver());
 
 		// You can also build it from scratch for granular tests
 		// Invalid zip code
@@ -269,7 +269,7 @@ public class MyFirstTestCase extends BaseTest {
 
 		PaymentModel payment = new PaymentModel().setPaymentMethod("cod");
 
-		CheckoutPage checkoutPage = new CheckoutPage(driver);
+		CheckoutPage checkoutPage = new CheckoutPage(getDriver());
 		// checkoutPage.billing.fillBillingDetails(billing).finalizeOrder(payment);
 	}
 
@@ -296,7 +296,7 @@ public class MyFirstTestCase extends BaseTest {
 
 		ShippingModel shipping = new ShippingModel().setFirstname("John").setAddress1("Different Place 456");
 
-		BillingSection billingPage = new BillingSection(driver);
+		BillingSection billingPage = new BillingSection(getDriver());
 		/*
 		 * checkoutPage.setBillingDetails(billing) .setShippingDetails(shipping)
 		 * .placeOrder(new PaymentModel().setPaymentMethod("cod"));
