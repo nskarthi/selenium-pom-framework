@@ -23,14 +23,17 @@ public class BaseTest {
     @BeforeMethod
     public void startDriver(String browser) {
         setDriver(new DriverManager().initializeDriver(browser));
+        System.out.println("CURRENT THREAD: " + Thread.currentThread().getId());
     }
 
     @AfterMethod
     public void quitDriver() {
         // Safe access via the getter
         if (getDriver() != null) {
+            System.out.println("CURRENT THREAD: " + Thread.currentThread().getId());
             getDriver().quit();
             driver.remove(); // Important: prevents memory leaks in ThreadLocal
+            
         }
     }
 }

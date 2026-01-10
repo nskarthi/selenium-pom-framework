@@ -50,12 +50,12 @@
               <ul>
                 <li>
                   <a href="#" panel-name="test-xml-Suite1" class="navigator-link ">
-                    <span>D:\Learnings\Selenium\Exercises\OMCHSeleniumFramework\testng_smoke.xml</span>
+                    <span>D:\Learnings\Selenium\Exercises\OMCHSeleniumFramework\testng_regression.xml</span>
                   </a> <!-- navigator-link  -->
                 </li>
                 <li>
                   <a href="#" panel-name="testlist-Suite1" class="navigator-link ">
-                    <span class="test-stats">1 test</span>
+                    <span class="test-stats">2 tests</span>
                   </a> <!-- navigator-link  -->
                 </li>
                 <li>
@@ -92,7 +92,7 @@
               <div class="suite-section-content">
                 <ul>
                   <li>
-                    <span class="method-stats">1 method,   1 passed</span>
+                    <span class="method-stats">4 methods,   4 passed</span>
                   </li>
                   <li>
                     <span class="method-list-title passed">Passed methods</span>
@@ -104,6 +104,21 @@
                       <span>
                         <img src="passed.png" width="3%"/>
                         <a href="#" panel-name="suite-Suite1" title="org.selenium.pom.tests.MyFirstTestCase" class="method navigator-link" hash-for-method="testGuestCheckoutOfManyProductUsingDirectBankTransfer">testGuestCheckoutOfManyProductUsingDirectBankTransfer</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-Suite1" title="org.selenium.pom.tests.MyFirstTestCase" class="method navigator-link" hash-for-method="testGuestCheckoutOfManyProductUsingDirectBankTransfer">testGuestCheckoutOfManyProductUsingDirectBankTransfer</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-Suite1" title="org.selenium.pom.tests.MyFirstTestCase" class="method navigator-link" hash-for-method="testGuestCheckoutOfOneProductUsingDirectBankTransfer">testGuestCheckoutOfOneProductUsingDirectBankTransfer</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-Suite1" title="org.selenium.pom.tests.MyFirstTestCase" class="method navigator-link" hash-for-method="testGuestCheckoutOfOneProductUsingDirectBankTransfer">testGuestCheckoutOfOneProductUsingDirectBankTransfer</a> <!-- method navigator-link -->
                       </span>
                       <br/>
                     </div> <!-- method-list-content passed suite-Suite1 -->
@@ -131,28 +146,54 @@
                   <span class="method-name">testGuestCheckoutOfManyProductUsingDirectBankTransfer</span>
                 </div> <!-- method-content -->
               </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="testGuestCheckoutOfManyProductUsingDirectBankTransfer">
+                  </a> <!-- testGuestCheckoutOfManyProductUsingDirectBankTransfer -->
+                  <span class="method-name">testGuestCheckoutOfManyProductUsingDirectBankTransfer</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="testGuestCheckoutOfOneProductUsingDirectBankTransfer">
+                  </a> <!-- testGuestCheckoutOfOneProductUsingDirectBankTransfer -->
+                  <span class="method-name">testGuestCheckoutOfOneProductUsingDirectBankTransfer</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="testGuestCheckoutOfOneProductUsingDirectBankTransfer">
+                  </a> <!-- testGuestCheckoutOfOneProductUsingDirectBankTransfer -->
+                  <span class="method-name">testGuestCheckoutOfOneProductUsingDirectBankTransfer</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
             </div> <!-- main-panel-content rounded-window-bottom -->
           </div> <!-- suite-Suite1-class-passed -->
         </div> <!-- panel Suite1 -->
         <div panel-name="test-xml-Suite1" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">D:\Learnings\Selenium\Exercises\OMCHSeleniumFramework\testng_smoke.xml</span>
+            <span class="header-content">D:\Learnings\Selenium\Exercises\OMCHSeleniumFramework\testng_regression.xml</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <pre>
 &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;!DOCTYPE suite SYSTEM &quot;https://testng.org/testng-1.0.dtd&quot;&gt;
-&lt;suite name=&quot;Suite1&quot; guice-stage=&quot;DEVELOPMENT&quot;&gt;
-  &lt;test thread-count=&quot;5&quot; name=&quot;Chrome&quot;&gt;
+&lt;suite thread-count=&quot;2&quot; parallel=&quot;tests&quot; name=&quot;Suite1&quot; guice-stage=&quot;DEVELOPMENT&quot;&gt;
+  &lt;test thread-count=&quot;2&quot; parallel=&quot;methods&quot; name=&quot;Chrome&quot;&gt;
     &lt;parameter name=&quot;browser&quot; value=&quot;CHROME&quot;/&gt;
+    &lt;packages&gt;
+      &lt;package name=&quot;org.selenium.pom.tests&quot;/&gt;
+    &lt;/packages&gt;
     &lt;classes&gt;
-      &lt;class name=&quot;org.selenium.pom.tests.MyFirstTestCase&quot;&gt;
-        &lt;methods&gt;
-          &lt;include name=&quot;testGuestCheckoutOfManyProductUsingDirectBankTransfer&quot;/&gt;
-        &lt;/methods&gt;
-      &lt;/class&gt; &lt;!-- org.selenium.pom.tests.MyFirstTestCase --&gt;
+      &lt;class name=&quot;org.selenium.pom.tests.MyFirstTestCase&quot;/&gt;
     &lt;/classes&gt;
   &lt;/test&gt; &lt;!-- Chrome --&gt;
+  &lt;test thread-count=&quot;2&quot; parallel=&quot;methods&quot; name=&quot;Firefox&quot;&gt;
+    &lt;parameter name=&quot;browser&quot; value=&quot;FIREFOX&quot;/&gt;
+    &lt;classes&gt;
+      &lt;class name=&quot;org.selenium.pom.tests.MyFirstTestCase&quot;/&gt;
+    &lt;/classes&gt;
+  &lt;/test&gt; &lt;!-- Firefox --&gt;
 &lt;/suite&gt; &lt;!-- Suite1 --&gt;
             </pre>
           </div> <!-- main-panel-content rounded-window-bottom -->
@@ -165,6 +206,9 @@
             <ul>
               <li>
                 <span class="test-name">Chrome (1 class)</span>
+              </li>
+              <li>
+                <span class="test-name">Firefox (1 class)</span>
               </li>
             </ul>
           </div> <!-- main-panel-content rounded-window-bottom -->
@@ -190,16 +234,28 @@ data.addColumn('number', 'Number');
 data.addColumn('string', 'Method');
 data.addColumn('string', 'Class');
 data.addColumn('number', 'Time (ms)');
-data.addRows(1);
+data.addRows(4);
 data.setCell(0, 0, 0)
 data.setCell(0, 1, 'testGuestCheckoutOfManyProductUsingDirectBankTransfer')
 data.setCell(0, 2, 'org.selenium.pom.tests.MyFirstTestCase')
-data.setCell(0, 3, 15883);
+data.setCell(0, 3, 20154);
+data.setCell(1, 0, 1)
+data.setCell(1, 1, 'testGuestCheckoutOfOneProductUsingDirectBankTransfer')
+data.setCell(1, 2, 'org.selenium.pom.tests.MyFirstTestCase')
+data.setCell(1, 3, 17378);
+data.setCell(2, 0, 2)
+data.setCell(2, 1, 'testGuestCheckoutOfManyProductUsingDirectBankTransfer')
+data.setCell(2, 2, 'org.selenium.pom.tests.MyFirstTestCase')
+data.setCell(2, 3, 16725);
+data.setCell(3, 0, 3)
+data.setCell(3, 1, 'testGuestCheckoutOfOneProductUsingDirectBankTransfer')
+data.setCell(3, 2, 'org.selenium.pom.tests.MyFirstTestCase')
+data.setCell(3, 3, 12190);
 window.suiteTableData['Suite1']= { tableData: data, tableDiv: 'times-div-Suite1'}
 return data;
 }
               </script>
-              <span class="suite-total-time">Total running time: 15 seconds</span>
+              <span class="suite-total-time">Total running time: 27 seconds</span>
               <div id="times-div-Suite1">
               </div> <!-- times-div-Suite1 -->
             </div> <!-- times-div -->
@@ -214,16 +270,9 @@ return data;
         </div> <!-- panel -->
         <div panel-name="ignored-methods-Suite1" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">1 ignored method</span>
+            <span class="header-content">0 ignored methods</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
-            <div class="ignored-class-div">
-              <span class="ignored-class-name">org.selenium.pom.tests.MyFirstTestCase</span>
-              <div class="ignored-methods-div">
-                <span class="ignored-method-name">testGuestCheckoutOfOneProductUsingDirectBankTransfer</span>
-                <br/>
-              </div> <!-- ignored-methods-div -->
-            </div> <!-- ignored-class-div -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->
         <div panel-name="chronological-Suite1" class="panel">
@@ -237,13 +286,49 @@ return data;
                 <span class="method-name">startDriver(CHROME)</span>
                 <span class="method-start">0 ms</span>
               </div> <!-- configuration-method before -->
+              <div class="configuration-method before">
+                <span class="method-name">startDriver(CHROME)</span>
+                <span class="method-start">0 ms</span>
+              </div> <!-- configuration-method before -->
+              <div class="configuration-method before">
+                <span class="method-name">startDriver(FIREFOX)</span>
+                <span class="method-start">0 ms</span>
+              </div> <!-- configuration-method before -->
+              <div class="configuration-method before">
+                <span class="method-name">startDriver(FIREFOX)</span>
+                <span class="method-start">0 ms</span>
+              </div> <!-- configuration-method before -->
               <div class="test-method">
                 <span class="method-name">testGuestCheckoutOfManyProductUsingDirectBankTransfer</span>
-                <span class="method-start">3171 ms</span>
+                <span class="method-start">3511 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">testGuestCheckoutOfOneProductUsingDirectBankTransfer</span>
+                <span class="method-start">3817 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">testGuestCheckoutOfManyProductUsingDirectBankTransfer</span>
+                <span class="method-start">9250 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">testGuestCheckoutOfOneProductUsingDirectBankTransfer</span>
+                <span class="method-start">9647 ms</span>
               </div> <!-- test-method -->
               <div class="configuration-method after">
                 <span class="method-name">quitDriver</span>
-                <span class="method-start">19057 ms</span>
+                <span class="method-start">21198 ms</span>
+              </div> <!-- configuration-method after -->
+              <div class="configuration-method after">
+                <span class="method-name">quitDriver</span>
+                <span class="method-start">21838 ms</span>
+              </div> <!-- configuration-method after -->
+              <div class="configuration-method after">
+                <span class="method-name">quitDriver</span>
+                <span class="method-start">23667 ms</span>
+              </div> <!-- configuration-method after -->
+              <div class="configuration-method after">
+                <span class="method-name">quitDriver</span>
+                <span class="method-start">25976 ms</span>
               </div> <!-- configuration-method after -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->
