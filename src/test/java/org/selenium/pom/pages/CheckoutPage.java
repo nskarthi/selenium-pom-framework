@@ -18,6 +18,8 @@ public class CheckoutPage extends BasePage<CheckoutPage> {
 	private final By remembermeCheckBox = By.name("rememberme");
 	private final By loginButton = By.cssSelector("button[name='login']");
 	private final By lostPasswordLink = By.linkText("Lost your password?");
+	
+	private final By productName = By.cssSelector("td[class='product-name']");
 
 	public BillingSection billing;
 	public ShippingSection shipping;
@@ -50,22 +52,35 @@ public class CheckoutPage extends BasePage<CheckoutPage> {
 		actions.click(loginButton);
 	}
 
-	public void loginAsReturningCustomer(String username, String password) {
+	public CheckoutPage loginAsReturningCustomer(String username, String password) {
 		clickReturningCustomerLoginLink();
 		enterUsername(username);
 		enterPassword(password);
 		clickLoginButton();
+		return this;
+	}
+	
+	public String getProductName() {
+		return actions.getContents(productName);
 	}
 
 	@Override
 	protected void load() {
-		// TODO Auto-generated method stub
+		System.out.println("In checkout page load");
+		load("/checkout");
+	}
+
+	public CheckoutPage loadUrl() {
+		driver.get("/checkout");
+		return this;
 	}
 
 	@Override
 	protected void isLoaded() throws Error {
 		String url = driver.getCurrentUrl();
+		System.out.println("in checkout isloaded");
 		if (!url.contains("checkout")) {
+			System.out.println("in isLoaded error section");
 			throw new Error("Checkout Page not loaded. Current URL: " + url);
 		}
 	}

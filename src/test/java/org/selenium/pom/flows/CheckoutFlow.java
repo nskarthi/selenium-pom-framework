@@ -11,47 +11,43 @@ import org.selenium.pom.pages.StorePage;
 import org.testng.Assert;
 
 public class CheckoutFlow {
-    public static final String PAGE_TITLE = "AskOmDch – Become a Selenium automation expert!";
+	public static final String PAGE_TITLE = "AskOmDch – Become a Selenium automation expert!";
 
-    private final HomePage homePage;
+	private final HomePage homePage;
 
-    public CheckoutFlow(HomePage homePage) {
-        this.homePage = homePage;
-    }
+	public CheckoutFlow(HomePage homePage) {
+		this.homePage = homePage;
+	}
 
-    /**
-     * Reusable flow to take a guest from the Home Page to the Checkout Page 
-     * with items in their cart.
-     */
-    public CheckoutPage navigateToCheckoutWithProducts(String searchKey, List<String> itemsToAdd) {
-        StorePage storePage = homePage.clickStoreMenuLink();
-        storePage.searchForProduct(searchKey);
+	/**
+	 * Reusable flow to take a guest from the Home Page to the Checkout Page with
+	 * items in their cart.
+	 */
+	public CheckoutPage navigateToCheckoutWithProducts(String searchKey, List<String> itemsToAdd) {
+		StorePage storePage = homePage.clickStoreMenuLink();
+		storePage.searchForProduct(searchKey);
 
-        for (String item : itemsToAdd) {
-            storePage.addProductToCart(item);
-        }
+		CartPage cartPage = storePage.addItemsToCart(itemsToAdd).
+				clickViewCartOfAProduct(itemsToAdd.get(0));
 
-        CartPage cartPage = storePage.clickViewCartOfAProduct(itemsToAdd.get(0));
-        
-        // Validate if all the products are added to the cart
-        for(String item : itemsToAdd) {
-        	Assert.assertTrue(cartPage.isProductInCart(item));
-        }
-        
-        return cartPage.clickProceedToCheckout();
-    }
+		// Validate if all the products are added to the cart
+		Assert.assertTrue(cartPage.areAllProductsInCart(itemsToAdd));
+		return cartPage.clickProceedToCheckout();
+	}
 
-    /**
-     * Reusable flow to fill out all billing and shipping details.
-     * @throws InterruptedException 
-     */
-    public void fillGuestDetails(CheckoutPage checkoutPage, BillingModel billingData, ShippingModel shippingData) throws InterruptedException {
-        checkoutPage.billing.fillBillingDetails(billingData);
+	/**
+	 * Reusable flow to fill out all billing and shipping details.
+	 * 
+	 * @throws InterruptedException
+	 */
+	public void fillGuestDetails(CheckoutPage checkoutPage, BillingModel billingData, ShippingModel shippingData)
+			throws InterruptedException {
+		checkoutPage.billing.fillBillingDetails(billingData);
 
-        if (billingData.isShipToDifferentAddress() && shippingData != null) {
-            System.out.println("filling shipping address");
-        	checkoutPage.shipping.fillShippingDetails(shippingData);
-        }
-    }
+		if (billingData.isShipToDifferentAddress() && shippingData != null) {
+			System.out.println("filling shipping address");
+			checkoutPage.shipping.fillShippingDetails(shippingData);
+		}
+	}
 
 }

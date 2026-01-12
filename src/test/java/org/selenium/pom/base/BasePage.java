@@ -26,8 +26,9 @@ public abstract class BasePage<T extends BasePage<T>> extends LoadableComponent<
 	 * executed to navigate to the page.
 	 */
 	protected void load(String endPoint) {
-		driver.get(ConfigLoader.getInstance().getBaseUrl() + endPoint);
-		// driver.get("https://askomdch.com/");
+		String finalUrl = ConfigLoader.getInstance().getBaseUrl() + endPoint;
+		System.out.println("In BasePage load: " + finalUrl);
+		driver.get(finalUrl);
 	};
 
 	/**

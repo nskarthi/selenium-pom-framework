@@ -1,13 +1,15 @@
 package org.selenium.pom.pages;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.selenium.pom.base.BasePage;
 
 public class CartPage extends BasePage<CartPage> {
-    public static final String PAGE_TITLE = "AskOmDch – Become a Selenium automation expert!";
+	public static final String PAGE_TITLE = "AskOmDch – Become a Selenium automation expert!";
 
 	private final By cartPageHeader = By.className("has-text-align-center");
 	private final By productNamesColumn = By.cssSelector(".woocommerce-cart-form__cart-item td.product-name");
@@ -20,10 +22,10 @@ public class CartPage extends BasePage<CartPage> {
 		super(driver);
 	}
 
-    public String getPageTitle() {
-        return actions.getPageTitle(PAGE_TITLE);
-    }
-	
+	public String getPageTitle() {
+		return actions.getPageTitle(PAGE_TITLE);
+	}
+
 	public List<String> getProductNamesInCart() {
 		return actions.getElementTextList(productNamesColumn);
 	}
@@ -71,8 +73,45 @@ public class CartPage extends BasePage<CartPage> {
 	public boolean isProductInCart(String expectedProductName) {
 		List<List<String>> tableData = getCartTableData();
 
-		return tableData.stream()
-				.anyMatch(row -> row.stream().anyMatch(cellText -> cellText.equalsIgnoreCase(expectedProductName)));
+		// Loop through each row of the table
+		for (List<String> row : tableData) {
+			// Loop through each cell in the current row
+			for (String cellText : row) {
+				// Check if cell text matches expected product name (case-insensitive)
+				if (cellText.equalsIgnoreCase(expectedProductName)) {
+					return true; // Match found, exit immediately
+				}
+			}
+		}
+		return false; // No match found after checking the entire table
+	}
+
+	/**
+	 * Function to verify if all the products are in the cart.
+	 */
+	public boolean areAllProductsInCart(List<String> expectedProductNames) {
+		// 1. Read the table data ONCE from the browser
+		List<List<String>> tableData = getCartTableData();
+
+		// 2. Flatten the 2D table into a single Set for O(1) lookups
+		// Set of lowercase strings for fast, case-insensitive matching
+		Set<String> allCellTexts = new HashSet<>();
+		for (List<String> row : tableData) {
+			for (String cell : row) {
+				if (cell != null) {
+					allCellTexts.add(cell.toLowerCase().trim());
+				}
+			}
+		}
+
+		// 3. Check if every expected product exists in our local Set
+		for (String productName : expectedProductNames) {
+			if (!allCellTexts.contains(productName.toLowerCase().trim())) {
+				// Fails as soon as one product is missing
+				return false;
+			}
+		}
+		return true; // All products found
 	}
 
 	/**
@@ -102,10 +141,10 @@ public class CartPage extends BasePage<CartPage> {
 
 	@Override
 	protected void isLoaded() throws Error {
-        String url = driver.getCurrentUrl();
-        if (!url.contains("cart")) {
-            throw new Error("Cart Page not loaded. Current URL: " + url);
-        }
+		String url = driver.getCurrentUrl();
+		if (!url.contains("cart")) {
+			throw new Error("Cart Page not loaded. Current URL: " + url);
+		}
 	}
 
 }

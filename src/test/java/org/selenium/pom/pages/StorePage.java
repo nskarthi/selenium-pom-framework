@@ -1,5 +1,7 @@
 package org.selenium.pom.pages;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.selenium.pom.base.BasePage;
@@ -53,6 +55,13 @@ public class StorePage extends BasePage<StorePage> {
 
 	// --- PRODUCT ACTIONS ---
 
+	public StorePage addItemsToCart(List<String> itemsToAdd) {
+		for (String item : itemsToAdd) {
+			addProductToCart(item);
+		}
+		return this;
+	}
+	
 	public StorePage addProductToCart(String productName) {
 		By locator = getAddToCartBtn(productName);
 		actions.click(locator);

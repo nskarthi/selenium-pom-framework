@@ -4,13 +4,13 @@
   <test thread-count="2" parallel="methods" name="Chrome(failed)">
     <parameter name="browser" value="CHROME"/>
     <classes>
-      <class name="org.selenium.pom.tests.SearchTest">
+      <class name="org.selenium.pom.tests.LoginTest">
         <methods>
-          <include name="searchWithPartialMatch"/>
+          <include name="loginDuringCheckout"/>
           <include name="startDriver"/>
           <include name="quitDriver"/>
         </methods>
-      </class> <!-- org.selenium.pom.tests.SearchTest -->
+      </class> <!-- org.selenium.pom.tests.LoginTest -->
     </classes>
   </test> <!-- Chrome(failed) -->
 </suite> <!-- Failed suite [Smoke Suite] -->
