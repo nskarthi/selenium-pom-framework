@@ -13,6 +13,7 @@ public class JacksonUtils {
 	public static <T> T deserializeJson(String jsonFilename, Class<T> T) throws IOException {
 		InputStream is = JacksonUtils.class.getClassLoader().getResourceAsStream(jsonFilename);
 		ObjectMapper objectMapper = new ObjectMapper();
+        //objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		return objectMapper.readValue(is, T);
 	}
 

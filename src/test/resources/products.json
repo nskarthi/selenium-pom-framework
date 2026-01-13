@@ -1,22 +1,27 @@
 [
   {
     "id": 1215,
-    "name": "Blue Shoes"
+    "name": "Blue Shoes",
+	"isFeaturedProduct": true
   },
   {
     "id": 1209,
-    "name": "Denim Blue Jeans"
+    "name": "Denim Blue Jeans",
+	"isFeaturedProduct": false
   },
   {
     "id": 1205,
-    "name": "Basic Blue Jeans"
+    "name": "Basic Blue Jeans",
+	"isFeaturedProduct": true
   },
   {
     "id": 1198,
-    "name": "Anchor Bracelet"
+    "name": "Anchor Bracelet",
+	"isFeaturedProduct": true
   },
   {
     "id": 1196,
-    "name": "Blue Tshirt"
+    "name": "Blue Tshirt",
+	"isFeaturedProduct": false
   }
 ]

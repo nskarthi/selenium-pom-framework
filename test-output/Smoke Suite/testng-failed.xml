@@ -4,13 +4,13 @@
   <test thread-count="2" parallel="methods" name="Chrome(failed)">
     <parameter name="browser" value="CHROME"/>
     <classes>
-      <class name="org.selenium.pom.tests.LoginTest">
+      <class name="org.selenium.pom.tests.AddToCartTest">
         <methods>
-          <include name="loginDuringCheckout"/>
           <include name="startDriver"/>
+          <include name="addFeaturedProductsToCart"/>
           <include name="quitDriver"/>
         </methods>
-      </class> <!-- org.selenium.pom.tests.LoginTest -->
+      </class> <!-- org.selenium.pom.tests.AddToCartTest -->
     </classes>
   </test> <!-- Chrome(failed) -->
 </suite> <!-- Failed suite [Smoke Suite] -->

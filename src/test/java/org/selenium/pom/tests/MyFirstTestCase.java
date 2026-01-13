@@ -37,7 +37,7 @@ public class MyFirstTestCase extends BaseTest {
 		// 2. Navigation & Initial Validation
 		// Using .get() ensures HomePage is loaded before we interact with it
 		HomePage homePage = new HomePage(getDriver()).get();
-		StorePage storePage = homePage.clickStoreMenuLink();
+		StorePage storePage = homePage.headerMenu.navigateToStorePage();
 
 		storePage.searchForProduct(searchKey);
 
@@ -50,7 +50,7 @@ public class MyFirstTestCase extends BaseTest {
 
 		// 4. Add Items to Cart
 		for (String item : itemsToAdd) {
-			storePage.addProductToCart(item);
+			storePage.clickAddToCartBtn(item);
 		}
 
 		Assert.assertEquals(storePage.getCartCount(), String.valueOf(itemsToAdd.size()),

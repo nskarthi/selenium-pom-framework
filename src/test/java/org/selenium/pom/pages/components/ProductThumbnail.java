@@ -1,39 +1,28 @@
-package org.selenium.pom.pages;
+package org.selenium.pom.pages.components;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.selenium.pom.base.BasePage;
-import org.selenium.pom.pages.components.HeaderMenu;
-import org.selenium.pom.pages.components.ProductThumbnail;
+import org.selenium.pom.pages.CartPage;
 
-public class HomePage extends BasePage<HomePage> {
-    public static final String PAGE_TITLE = "AskOmDch – Become a Selenium automation expert!";
-	private final By storeMenuLink = By.cssSelector("#menu-item-1227 a");
-	public HeaderMenu headerMenu;
-	public ProductThumbnail productThumbnail;
+public class ProductThumbnail extends BasePage {
 
-	public HomePage(WebDriver driver) {
+	public ProductThumbnail(WebDriver driver) {
 		super(driver);
-		headerMenu = new HeaderMenu(driver);
-		productThumbnail = new ProductThumbnail(driver);
 	}
-
-    public String getPageTitle() {
-        return actions.getPageTitle(PAGE_TITLE);
-    }
 
 	private By getViewCartLocator(String productName) {
 		// Targets the "View Cart" link that appears specifically after a product is
 		// added
 		return By.cssSelector("a.added[aria-label*='" + productName + "']+a");
 	}
-    
+
 	private By getAddToCartBtnLocator(String productName) {
 		// Instead of hardcoding "Blue Shoes", generate the locator on the fly
 		return By.cssSelector("a[aria-label*='" + productName + "']");
 	}
 
-	public HomePage clickAddToCartBtn(String productName) {
+	public ProductThumbnail clickAddToCartBtn(String productName) {
 		By locator = getAddToCartBtnLocator(productName);
 		actions.click(locator);
 		actions.waitForAttributeToContain(locator, "class", "added");
@@ -44,17 +33,17 @@ public class HomePage extends BasePage<HomePage> {
 		actions.click(getViewCartLocator(productName));
 		return new CartPage(driver);
 	}
-
+	
 	@Override
 	protected void isLoaded() throws Error {
-		String url = driver.getCurrentUrl();
-		if (!url.contains("askomdch.com")) {
-			throw new Error("Home Page not loaded. Current URL: " + url);
-		}
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	protected void load() {
-		load("/");
+		// TODO Auto-generated method stub
+		
 	}
+	
 }

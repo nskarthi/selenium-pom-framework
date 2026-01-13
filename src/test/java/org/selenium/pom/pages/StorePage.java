@@ -57,19 +57,18 @@ public class StorePage extends BasePage<StorePage> {
 
 	public StorePage addItemsToCart(List<String> itemsToAdd) {
 		for (String item : itemsToAdd) {
-			addProductToCart(item);
+			clickAddToCartBtn(item);
 		}
 		return this;
 	}
 	
-	public StorePage addProductToCart(String productName) {
-		By locator = getAddToCartBtn(productName);
+	public StorePage clickAddToCartBtn(String productName) {
+		By locator = getAddToCartBtnLocator(productName);
 		actions.click(locator);
 		actions.waitForAttributeToContain(locator, "class", "added");
 		return this;
 	}
 
-	// Intent-based: Combines clicking and waiting for the next state
 	public CartPage clickViewCartOfAProduct(String productName) {
 		actions.click(getViewCartLocator(productName));
 		return new CartPage(driver);
@@ -102,7 +101,7 @@ public class StorePage extends BasePage<StorePage> {
 		return By.cssSelector("a.added[aria-label*='" + productName + "']+a");
 	}
 
-	private By getAddToCartBtn(String productName) {
+	private By getAddToCartBtnLocator(String productName) {
 		// Instead of hardcoding "Blue Shoes", generate the locator on the fly
 		return By.cssSelector("a[aria-label*='" + productName + "']");
 	}

@@ -5,20 +5,20 @@ import java.time.Duration;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.LoadableComponent;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.selenium.pom.pages.components.MenuComponent;
+import org.selenium.pom.pages.components.HeaderMenu;
 import org.selenium.pom.utils.ConfigLoader;
 
 public abstract class BasePage<T extends BasePage<T>> extends LoadableComponent<T> {
 	protected WebDriver driver;
 	protected WebDriverWait wait;
 	protected ElementActions actions;
-    public MenuComponent menu; // Common to all pages
+    public HeaderMenu menu; // Common to all pages
 
 	public BasePage(WebDriver driver) {
 		this.driver = driver;
 		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 		this.actions = new ElementActions(driver);
-        this.menu = new MenuComponent(driver);
+        this.menu = new HeaderMenu(driver);
 	}
 
 	/**
@@ -27,7 +27,6 @@ public abstract class BasePage<T extends BasePage<T>> extends LoadableComponent<
 	 */
 	protected void load(String endPoint) {
 		String finalUrl = ConfigLoader.getInstance().getBaseUrl() + endPoint;
-		System.out.println("In BasePage load: " + finalUrl);
 		driver.get(finalUrl);
 	};
 

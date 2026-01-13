@@ -6,14 +6,16 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.selenium.pom.base.BaseTest;
+import org.selenium.pom.dataproviders.DataProviders;
 import org.selenium.pom.model.Product;
 import org.selenium.pom.pages.CartPage;
+import org.selenium.pom.pages.HomePage;
 import org.selenium.pom.pages.StorePage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class AddToCartTest extends BaseTest {
-	@Test
+	//@Test
 	public void addToCartFromStorePage() throws IOException, InterruptedException {
 		List<Integer> listOfProducts = Arrays.asList(1198);
 		List<String> cartItems = new ArrayList<>();
@@ -25,9 +27,32 @@ public class AddToCartTest extends BaseTest {
 
 		CartPage cartPage = new StorePage(getDriver()).get().addItemsToCart(cartItems)
 				.clickViewCartOfAProduct(cartItems.get(0)).get();
-
+		
 		// Validate if all the products are added to the cart
 		Assert.assertTrue(cartPage.areAllProductsInCart(cartItems),
 				"One or more expected products were missing from the cart!");
 	}
+
+	@Test(dataProvider = "getFeaturedProducts", dataProviderClass = DataProviders.class)
+	public void addFeaturedProductsToCart(Product product) {
+		CartPage cartPage = new HomePage(getDriver()).
+				get().
+				clickAddToCartBtn(product.getName()).
+				clickViewCartOfAProduct(product.getName());
+		Assert.assertTrue(cartPage.isProductInCart(product.getName()),
+				"One or more expected products were missing from the cart!");
+		cartPage.getProductNamesInCart();
+	}
+	
+	@Test(dataProvider = "getProducts", dataProviderClass = DataProviders.class)
+	public void addProductsToCart(Product product) {
+		CartPage cartPage = new HomePage(getDriver()).
+				get().
+				clickAddToCartBtn(product.getName()).
+				clickViewCartOfAProduct(product.getName());
+		Assert.assertTrue(cartPage.isProductInCart(product.getName()),
+				"One or more expected products were missing from the cart!");
+		cartPage.getProductNamesInCart();
+	}
+
 }

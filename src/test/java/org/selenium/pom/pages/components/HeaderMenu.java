@@ -6,7 +6,7 @@ import org.selenium.pom.base.ElementActions;
 import org.selenium.pom.pages.HomePage;
 import org.selenium.pom.pages.StorePage;
 
-public class MenuComponent {
+public class HeaderMenu {
 
     private final By homeMenuLink = By.cssSelector("#menu-item-1226 a");
 	private final By storeMenuLink = By.cssSelector("#menu-item-1227 a");
@@ -20,7 +20,7 @@ public class MenuComponent {
     private ElementActions actions;
     private WebDriver driver;
 
-	public MenuComponent(WebDriver driver) {
+	public HeaderMenu(WebDriver driver) {
 		this.driver = driver;
 		actions = new ElementActions(driver);
 	}

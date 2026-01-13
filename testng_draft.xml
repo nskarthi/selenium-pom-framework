@@ -4,9 +4,19 @@
 	<test name="Chrome" thread-count="2" parallel="methods">
 		<parameter name="browser" value="CHROME" />
 		<classes>
-			<class name="org.selenium.pom.tests.SearchTest" />
-			<class name="org.selenium.pom.tests.AddToCartTest" />
-<!--			<class name="org.selenium.pom.tests.LoginTest" /> -->
+<!--			<class name="org.selenium.pom.tests.SearchTest" />-->
+<!--			<class name="org.selenium.pom.tests.AddToCartTest">
+				<methods>
+					<include name="addFeaturedProductsToCart" />
+					<include name="addProductsToCart" />
+				</methods>
+			</class>-->
+			<class name="org.selenium.pom.tests.NavigationTest">
+				<methods>
+					<include name="testnavigateFromHomeToStoreUsingMainMenu" />
+				</methods>
+			</class>
+			<!--			<class name="org.selenium.pom.tests.LoginTest" /> -->
 		</classes>
 	</test>
 </suite>

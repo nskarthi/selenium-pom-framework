@@ -12,7 +12,8 @@ public class NavigationTest extends BaseTest {
 
 	@Test
 	public void testnavigateFromHomeToStoreUsingMainMenu() throws IOException, InterruptedException {
-        StorePage storePage = new HomePage(getDriver()).get().clickStoreMenuLink();
+        //StorePage storePage = new HomePage(getDriver()).get().clickStoreMenuLink();
+        StorePage storePage = new HomePage(getDriver()).get().headerMenu.navigateToStorePage();
 		Assert.assertEquals(storePage.getPageHeading(), "Store");
 	}
 }
