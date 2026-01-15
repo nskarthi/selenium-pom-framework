@@ -37,12 +37,12 @@ public class MyFirstTestCase extends BaseTest {
 		// 2. Navigation & Initial Validation
 		// Using .get() ensures HomePage is loaded before we interact with it
 		HomePage homePage = new HomePage(getDriver()).get();
-		StorePage storePage = homePage.headerMenu.navigateToStorePage();
+		StorePage storePage = homePage.getHeaderMenu().navigateToStorePage();
 
 		storePage.searchForProduct(searchKey);
 
 		Assert.assertEquals(storePage.getSearchHeaderText(), "Search results: “" + searchKey + "”");
-		Assert.assertEquals(storePage.getCartCount(), "0", "Cart should be empty at the start of the test");
+		Assert.assertEquals(storePage.getHeaderMenu().getCartCount(), "0", "Cart should be empty at the start of the test");
 
 		// 3. Product Price Validation
 		String productToVerify = "Blue Shoes";
@@ -50,14 +50,17 @@ public class MyFirstTestCase extends BaseTest {
 
 		// 4. Add Items to Cart
 		for (String item : itemsToAdd) {
-			storePage.clickAddToCartBtn(item);
+			storePage.getProductThumbnail().
+				clickAddToCartBtn(item);
 		}
 
-		Assert.assertEquals(storePage.getCartCount(), String.valueOf(itemsToAdd.size()),
+		Assert.assertEquals(storePage.getHeaderMenu().getCartCount(), String.valueOf(itemsToAdd.size()),
 				"Cart count did not match the number of added items");
 
 		// 5. Cart Review
-		CartPage cartPage = storePage.clickViewCartOfAProduct(productToVerify);
+		CartPage cartPage = storePage.getProductThumbnail().
+				clickViewCartOfAProduct(productToVerify).
+				get();
 
 		// Assertions on Cart Contents
 		for (String item : itemsToAdd) {

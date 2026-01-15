@@ -24,11 +24,13 @@ public class CheckoutFlow {
 	 * items in their cart.
 	 */
 	public CheckoutPage navigateToCheckoutWithProducts(String searchKey, List<String> itemsToAdd) {
-		StorePage storePage = homePage.headerMenu.navigateToStorePage();
+		StorePage storePage = homePage.get().getHeaderMenu().navigateToStorePage();
 		storePage.searchForProduct(searchKey);
 
-		CartPage cartPage = storePage.addItemsToCart(itemsToAdd).
-				clickViewCartOfAProduct(itemsToAdd.get(0));
+		CartPage cartPage = storePage.getProductThumbnail().
+				addItemsToCart(itemsToAdd).
+				clickViewCartOfAProduct(itemsToAdd.get(0)).
+				get();
 
 		// Validate if all the products are added to the cart
 		Assert.assertTrue(cartPage.areAllProductsInCart(itemsToAdd));

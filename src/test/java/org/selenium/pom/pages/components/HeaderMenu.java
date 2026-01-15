@@ -16,6 +16,7 @@ public class HeaderMenu {
     private final By accountMenuLink = By.cssSelector("#menu-item-1237 a");
     private final By aboutMenuLink = By.cssSelector("#menu-item-1232 a");
     private final By contactusMenuLink = By.cssSelector("#menu-item-1233 a");
+	private final By cartIconCount = By.cssSelector("div#ast-desktop-header span.count");
 
     private ElementActions actions;
     private WebDriver driver;
@@ -35,6 +36,10 @@ public class HeaderMenu {
         return new StorePage(driver);
     }
 
+	public String getCartCount() {
+		return actions.getContents(cartIconCount);
+	}
+    
     /* 
     public MenPage navigateToMenPage() {
         actions.click(menMenuLink);

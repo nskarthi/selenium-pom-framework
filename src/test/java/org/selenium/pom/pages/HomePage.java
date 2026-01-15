@@ -1,6 +1,5 @@
 package org.selenium.pom.pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.selenium.pom.base.BasePage;
 import org.selenium.pom.pages.components.HeaderMenu;
@@ -8,9 +7,16 @@ import org.selenium.pom.pages.components.ProductThumbnail;
 
 public class HomePage extends BasePage<HomePage> {
     public static final String PAGE_TITLE = "AskOmDch – Become a Selenium automation expert!";
-	private final By storeMenuLink = By.cssSelector("#menu-item-1227 a");
-	public HeaderMenu headerMenu;
-	public ProductThumbnail productThumbnail;
+	private HeaderMenu headerMenu;
+	private ProductThumbnail productThumbnail;
+
+	public HeaderMenu getHeaderMenu() {
+		return headerMenu;
+	}
+
+	public ProductThumbnail getProductThumbnail() {
+		return productThumbnail;
+	}
 
 	public HomePage(WebDriver driver) {
 		super(driver);
@@ -21,29 +27,6 @@ public class HomePage extends BasePage<HomePage> {
     public String getPageTitle() {
         return actions.getPageTitle(PAGE_TITLE);
     }
-
-	private By getViewCartLocator(String productName) {
-		// Targets the "View Cart" link that appears specifically after a product is
-		// added
-		return By.cssSelector("a.added[aria-label*='" + productName + "']+a");
-	}
-    
-	private By getAddToCartBtnLocator(String productName) {
-		// Instead of hardcoding "Blue Shoes", generate the locator on the fly
-		return By.cssSelector("a[aria-label*='" + productName + "']");
-	}
-
-	public HomePage clickAddToCartBtn(String productName) {
-		By locator = getAddToCartBtnLocator(productName);
-		actions.click(locator);
-		actions.waitForAttributeToContain(locator, "class", "added");
-		return this;
-	}
-
-	public CartPage clickViewCartOfAProduct(String productName) {
-		actions.click(getViewCartLocator(productName));
-		return new CartPage(driver);
-	}
 
 	@Override
 	protected void isLoaded() throws Error {

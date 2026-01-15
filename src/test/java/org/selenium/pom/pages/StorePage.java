@@ -1,10 +1,10 @@
 package org.selenium.pom.pages;
 
-import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.selenium.pom.base.BasePage;
+import org.selenium.pom.pages.components.HeaderMenu;
+import org.selenium.pom.pages.components.ProductThumbnail;
 
 public class StorePage extends BasePage<StorePage> {
     public static final String PAGE_TITLE = "Products – AskOmDch";
@@ -12,19 +12,17 @@ public class StorePage extends BasePage<StorePage> {
 	private final By searchTextbox = By.id("woocommerce-product-search-field-0");
 	private final By searchButton = By.cssSelector("button[value='Search']");
 	private final By searchResultHeading = By.cssSelector(".woocommerce-products-header__title.page-title");
-	private final By cartIconCount = By.cssSelector("div#ast-desktop-header span.count");
 
-	/*
-	 * By addBlueShoesToCart =
-	 * By.cssSelector("a[aria-label='Add “Blue Shoes” to your cart']"); // By
-	 * addedToCartBlueShoes = // By.cssSelector(
-	 * ".button.product_type_simple.add_to_cart_button.ajax_add_to_cart.added"); By
-	 * addedToCartBlueShoes = By.cssSelector("a.added[aria-label*='Blue Shoes']");
-	 * By priceOfBlueJeans = By
-	 * .xpath("//a[@aria-label='Add “Blue Shoes” to your cart']/preceding-sibling::span[@class='price']"
-	 * ); By viewCartLinkOfBlueJeans =
-	 * By.cssSelector("a.added[aria-label*='Blue Shoes']+a");
-	 */
+	private HeaderMenu headerMenu;
+	private ProductThumbnail productThumbnail;
+
+	public HeaderMenu getHeaderMenu() {
+		return headerMenu;
+	}
+
+	public ProductThumbnail getProductThumbnail() {
+		return productThumbnail;
+	}
 
 	public StorePage(WebDriver driver) {
 		super(driver);
@@ -53,35 +51,10 @@ public class StorePage extends BasePage<StorePage> {
 		return this;
 	}
 
-	// --- PRODUCT ACTIONS ---
-
-	public StorePage addItemsToCart(List<String> itemsToAdd) {
-		for (String item : itemsToAdd) {
-			clickAddToCartBtn(item);
-		}
-		return this;
-	}
-	
-	public StorePage clickAddToCartBtn(String productName) {
-		By locator = getAddToCartBtnLocator(productName);
-		actions.click(locator);
-		actions.waitForAttributeToContain(locator, "class", "added");
-		return this;
-	}
-
-	public CartPage clickViewCartOfAProduct(String productName) {
-		actions.click(getViewCartLocator(productName));
-		return new CartPage(driver);
-	}
-
 	// DATA RETRIEVAL
 
 	public String getProductPrice(String productName) {
 		return actions.getContents(getPriceLocator(productName));
-	}
-
-	public String getCartCount() {
-		return actions.getContents(cartIconCount);
 	}
 
 	public String getSearchHeaderText() {
@@ -93,17 +66,6 @@ public class StorePage extends BasePage<StorePage> {
 	private By getPriceLocator(String productName) {
 		// Uses the XPath axis to find the price relative to the "Add to Cart" button
 		return By.xpath("//a[contains(@aria-label, '" + productName + "')]/preceding-sibling::span[@class='price']");
-	}
-
-	private By getViewCartLocator(String productName) {
-		// Targets the "View Cart" link that appears specifically after a product is
-		// added
-		return By.cssSelector("a.added[aria-label*='" + productName + "']+a");
-	}
-
-	private By getAddToCartBtnLocator(String productName) {
-		// Instead of hardcoding "Blue Shoes", generate the locator on the fly
-		return By.cssSelector("a[aria-label*='" + productName + "']");
 	}
 
 	// --- LOADABLE COMPONENT OVERRIDES ---

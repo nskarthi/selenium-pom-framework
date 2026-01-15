@@ -11,6 +11,7 @@
 		<maven.compiler.target>15</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<suiteFile>testng_smoke.xml</suiteFile>
+		<aspectj.version>1.9.6</aspectj.version>
 	</properties>
 
 	<build>
@@ -20,6 +21,9 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.5.4</version>
 				<configuration>
+					<argLine>
+						-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+					</argLine>
 					<!--					<parallel>methods</parallel>
 					<threadCount>6</threadCount>   -->
 					<suiteXmlFiles>
@@ -27,6 +31,13 @@
 						<!--command line: mvn clean test -DsuiteFile=testng_smoke.xml,testng_regression.xml-->
 					</suiteXmlFiles>
 				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.aspectj</groupId>
+						<artifactId>aspectjweaver</artifactId>
+						<version>${aspectj.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
@@ -103,5 +114,13 @@
 			<scope>compile</scope>
 		</dependency>
 
+		<!-- Source:
+		https://mvnrepository.com/artifact/io.qameta.allure/allure-testng -->
+		<dependency>
+			<groupId>io.qameta.allure</groupId>
+			<artifactId>allure-testng</artifactId>
+			<version>2.13.8</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 </project>

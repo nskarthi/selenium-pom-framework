@@ -15,7 +15,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class AddToCartTest extends BaseTest {
-	//@Test
+	@Test(description = "Should be able to add products to cart from store page")
 	public void addToCartFromStorePage() throws IOException, InterruptedException {
 		List<Integer> listOfProducts = Arrays.asList(1198);
 		List<String> cartItems = new ArrayList<>();
@@ -25,31 +25,31 @@ public class AddToCartTest extends BaseTest {
 			cartItems.add(product.getName());
 		}
 
-		CartPage cartPage = new StorePage(getDriver()).get().addItemsToCart(cartItems)
+		CartPage cartPage = new StorePage(getDriver()).get().getProductThumbnail().addItemsToCart(cartItems)
 				.clickViewCartOfAProduct(cartItems.get(0)).get();
-		
+		/*
+		 * addItemsToCart(cartItems). getProductThumbnail().
+		 * clickViewCartOfAProduct(cartItems.get(0)). get();
+		 */
+
 		// Validate if all the products are added to the cart
 		Assert.assertTrue(cartPage.areAllProductsInCart(cartItems),
 				"One or more expected products were missing from the cart!");
 	}
 
-	@Test(dataProvider = "getFeaturedProducts", dataProviderClass = DataProviders.class)
+	@Test(dataProvider = "getFeaturedProducts", dataProviderClass = DataProviders.class, description = "Should be able to add featured products to cart from store page")
 	public void addFeaturedProductsToCart(Product product) {
-		CartPage cartPage = new HomePage(getDriver()).
-				get().
-				clickAddToCartBtn(product.getName()).
-				clickViewCartOfAProduct(product.getName());
+		CartPage cartPage = new HomePage(getDriver()).get().getProductThumbnail().clickAddToCartBtn(product.getName())
+				.clickViewCartOfAProduct(product.getName());
 		Assert.assertTrue(cartPage.isProductInCart(product.getName()),
 				"One or more expected products were missing from the cart!");
 		cartPage.getProductNamesInCart();
 	}
-	
-	@Test(dataProvider = "getProducts", dataProviderClass = DataProviders.class)
+
+	@Test(dataProvider = "getProducts", dataProviderClass = DataProviders.class, description = "Should be able to add products to cart - using data providers")
 	public void addProductsToCart(Product product) {
-		CartPage cartPage = new HomePage(getDriver()).
-				get().
-				clickAddToCartBtn(product.getName()).
-				clickViewCartOfAProduct(product.getName());
+		CartPage cartPage = new HomePage(getDriver()).get().getProductThumbnail().clickAddToCartBtn(product.getName())
+				.clickViewCartOfAProduct(product.getName());
 		Assert.assertTrue(cartPage.isProductInCart(product.getName()),
 				"One or more expected products were missing from the cart!");
 		cartPage.getProductNamesInCart();

@@ -3,6 +3,9 @@ target/
 bin/
 build/
 *.class
+allure-results/
+OMCodeRepo/
+test-output/
 
 # Selenium logs & drivers
 *.log

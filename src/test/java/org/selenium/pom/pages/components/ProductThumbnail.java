@@ -1,5 +1,7 @@
 package org.selenium.pom.pages.components;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.selenium.pom.base.BasePage;
@@ -33,7 +35,14 @@ public class ProductThumbnail extends BasePage {
 		actions.click(getViewCartLocator(productName));
 		return new CartPage(driver);
 	}
-	
+
+	public ProductThumbnail addItemsToCart(List<String> itemsToAdd) {
+		for (String item : itemsToAdd) {
+			clickAddToCartBtn(item);
+		}
+		return this;
+	}
+
 	@Override
 	protected void isLoaded() throws Error {
 		// TODO Auto-generated method stub
