@@ -26,6 +26,8 @@ public class StorePage extends BasePage<StorePage> {
 
 	public StorePage(WebDriver driver) {
 		super(driver);
+		headerMenu = new HeaderMenu(driver);
+		productThumbnail = new ProductThumbnail(driver);
 	}
 
     public String getPageHeading() {

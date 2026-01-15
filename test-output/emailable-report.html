@@ -8,11 +8,58 @@
 <body>
 <table>
 <tr><th>Test</th><th># Passed</th><th># Skipped</th><th># Retried</th><th># Failed</th><th>Time (ms)</th><th>Included Groups</th><th>Excluded Groups</th></tr>
-<tr><th colspan="8">Smoke Suite</th></tr>
-<tr><td><a href="#t0">Chrome</a></td><td class="num">1</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">6,132</td><td></td><td></td></tr>
+<tr><th colspan="8">Regression Suite</th></tr>
+<tr><td><a href="#t0">Firefox</a></td><td class="num">2</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">60,632</td><td></td><td></td></tr>
+<tr class="stripe"><td><a href="#t1">Chrome</a></td><td class="num">12</td><td class="num">0</td><td class="num">0</td><td class="num attn">1</td><td class="num">79,576</td><td></td><td></td></tr>
+<tr><th>Total</th><th class="num">14</th><th class="num">0</th><th class="num">0</th><th class="num attn">1</th><th class="num">140,208</th><th colspan="2"></th></tr>
 </table>
-<table id='summary'><thead><tr><th>Class</th><th>Method</th><th>Start</th><th>Time (ms)</th></tr></thead><tbody><tr><th colspan="4">Smoke Suite</th></tr></tbody><tbody id="t0"><tr><th colspan="4">Chrome &#8212; passed</th></tr><tr class="passedeven"><td rowspan="1">org.selenium.pom.tests.NavigationTest</td><td><a href="#m0">testnavigateFromHomeToStoreUsingMainMenu</a></td><td rowspan="1">1768423098501</td><td rowspan="1">2168</td></tr></tbody>
+<table id='summary'><thead><tr><th>Class</th><th>Method</th><th>Start</th><th>Time (ms)</th></tr></thead><tbody><tr><th colspan="4">Regression Suite</th></tr></tbody><tbody id="t0"><tr><th colspan="4">Firefox &#8212; passed</th></tr><tr class="passedeven"><td rowspan="2">org.selenium.pom.tests.MyFirstTestCase</td><td><a href="#m0">testGuestCheckoutOfOneProductUsingDirectBankTransfer</a></td><td rowspan="1">1768476110854</td><td rowspan="1">22755</td></tr><tr class="passedeven"><td><a href="#m1">testLoggedInUserCheckoutUsingDirectBankTransfer</a></td><td rowspan="1">1768476109762</td><td rowspan="1">39032</td></tr></tbody>
+<tbody id="t1"><tr><th colspan="4">Chrome &#8212; failed</th></tr><tr class="failedeven"><td rowspan="1">org.selenium.pom.tests.MyFirstTestCase</td><td><a href="#m2">testLoggedInUserCheckoutUsingDirectBankTransfer</a></td><td rowspan="1">1768476119222</td><td rowspan="1">49133</td></tr><tr><th colspan="4">Chrome &#8212; passed</th></tr><tr class="passedeven"><td rowspan="9">org.selenium.pom.tests.AddToCartTest</td><td><a href="#m3">addFeaturedProductsToCart</a></td><td rowspan="3">1768476095133</td><td rowspan="3">13494</td></tr><tr class="passedeven"><td><a href="#m4">addFeaturedProductsToCart</a></td></tr><tr class="passedeven"><td><a href="#m5">addFeaturedProductsToCart</a></td></tr><tr class="passedeven"><td><a href="#m6">addProductsToCart</a></td><td rowspan="5">1768476097362</td><td rowspan="5">6402</td></tr><tr class="passedeven"><td><a href="#m7">addProductsToCart</a></td></tr><tr class="passedeven"><td><a href="#m8">addProductsToCart</a></td></tr><tr class="passedeven"><td><a href="#m9">addProductsToCart</a></td></tr><tr class="passedeven"><td><a href="#m10">addProductsToCart</a></td></tr><tr class="passedeven"><td><a href="#m11">addToCartFromStorePage</a></td><td rowspan="1">1768476111268</td><td rowspan="1">4822</td></tr><tr class="passedodd"><td rowspan="1">org.selenium.pom.tests.MyFirstTestCase</td><td><a href="#m12">testGuestCheckoutOfOneProductUsingDirectBankTransfer</a></td><td rowspan="1">1768476113659</td><td rowspan="1">22468</td></tr><tr class="passedeven"><td rowspan="1">org.selenium.pom.tests.NavigationTest</td><td><a href="#m13">testnavigateFromHomeToStoreUsingMainMenu</a></td><td rowspan="1">1768476138982</td><td rowspan="1">1970</td></tr><tr class="passedodd"><td rowspan="1">org.selenium.pom.tests.SearchTest</td><td><a href="#m14">searchWithPartialMatch</a></td><td rowspan="1">1768476143803</td><td rowspan="1">5476</td></tr></tbody>
 </table>
-<h2>Chrome</h2><h3 id="m0">org.selenium.pom.tests.NavigationTest#testnavigateFromHomeToStoreUsingMainMenu</h3><table class="result"><tr><th class="invisible"/></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h2>Firefox</h2><h3 id="m0">org.selenium.pom.tests.MyFirstTestCase#testGuestCheckoutOfOneProductUsingDirectBankTransfer</h3><table class="result"><tr><th class="invisible"/></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h3 id="m1">org.selenium.pom.tests.MyFirstTestCase#testLoggedInUserCheckoutUsingDirectBankTransfer</h3><table class="result"><tr><th class="invisible"/></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h2>Chrome</h2><h3 id="m2">org.selenium.pom.tests.MyFirstTestCase#testLoggedInUserCheckoutUsingDirectBankTransfer</h3><table class="result"><tr><th>Exception</th></tr><tr><td><div class="stacktrace">org.openqa.selenium.TimeoutException: Expected condition failed: waiting for visibility of element located by By.name: shipping_postcode (tried for 15 second(s) with 500 milliseconds interval)
+Build info: version: &apos;4.39.0&apos;, revision: &apos;126f156aee&apos;
+System info: os.name: &apos;Windows 10&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;15.0.1&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 143.0.7499.170, chrome: {chromedriverVersion: 143.0.7499.192 (be2c1f4fd45..., userDataDir: C:\Users\KSG\AppData\Local\...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:60362}, goog:processID: 26364, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:60362/devtoo..., se:cdpVersion: 143.0.7499.170, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 2103af99a5f3b953a1c9141956a4c95a
+	at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:84)
+	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:228)
+	at org.selenium.pom.base.ElementActions.type(ElementActions.java:56)
+	at org.selenium.pom.pages.ShippingSection.fillShippingDetails(ShippingSection.java:82)
+	at org.selenium.pom.flows.CheckoutFlow.fillGuestDetails(CheckoutFlow.java:51)
+	at org.selenium.pom.tests.MyFirstTestCase.testLoggedInUserCheckoutUsingDirectBankTransfer(MyFirstTestCase.java:223)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:228)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:63)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:961)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:201)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at org.testng.internal.thread.graph.TestNGFutureTask.run(TestNGFutureTask.java:22)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:630)
+	at java.base/java.lang.Thread.run(Thread.java:832)
+</div></td></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h3 id="m3">org.selenium.pom.tests.AddToCartTest#addFeaturedProductsToCart</h3><table class="result"><tr class="param"><th>Parameter #1</th></tr><tr class="param stripe"><td>org.selenium.pom.model.Product@43b7960e</td></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h3 id="m4">org.selenium.pom.tests.AddToCartTest#addFeaturedProductsToCart</h3><table class="result"><tr class="param"><th>Parameter #1</th></tr><tr class="param stripe"><td>org.selenium.pom.model.Product@19a35a5a</td></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h3 id="m5">org.selenium.pom.tests.AddToCartTest#addFeaturedProductsToCart</h3><table class="result"><tr class="param"><th>Parameter #1</th></tr><tr class="param stripe"><td>org.selenium.pom.model.Product@5dc32ec0</td></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h3 id="m6">org.selenium.pom.tests.AddToCartTest#addProductsToCart</h3><table class="result"><tr class="param"><th>Parameter #1</th></tr><tr class="param stripe"><td>org.selenium.pom.model.Product@430c7849</td></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h3 id="m7">org.selenium.pom.tests.AddToCartTest#addProductsToCart</h3><table class="result"><tr class="param"><th>Parameter #1</th></tr><tr class="param stripe"><td>org.selenium.pom.model.Product@4087339d</td></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h3 id="m8">org.selenium.pom.tests.AddToCartTest#addProductsToCart</h3><table class="result"><tr class="param"><th>Parameter #1</th></tr><tr class="param stripe"><td>org.selenium.pom.model.Product@67fd0c54</td></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h3 id="m9">org.selenium.pom.tests.AddToCartTest#addProductsToCart</h3><table class="result"><tr class="param"><th>Parameter #1</th></tr><tr class="param stripe"><td>org.selenium.pom.model.Product@54960b00</td></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h3 id="m10">org.selenium.pom.tests.AddToCartTest#addProductsToCart</h3><table class="result"><tr class="param"><th>Parameter #1</th></tr><tr class="param stripe"><td>org.selenium.pom.model.Product@5585867b</td></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h3 id="m11">org.selenium.pom.tests.AddToCartTest#addToCartFromStorePage</h3><table class="result"><tr><th class="invisible"/></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h3 id="m12">org.selenium.pom.tests.MyFirstTestCase#testGuestCheckoutOfOneProductUsingDirectBankTransfer</h3><table class="result"><tr><th class="invisible"/></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h3 id="m13">org.selenium.pom.tests.NavigationTest#testnavigateFromHomeToStoreUsingMainMenu</h3><table class="result"><tr><th class="invisible"/></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h3 id="m14">org.selenium.pom.tests.SearchTest#searchWithPartialMatch</h3><table class="result"><tr><th class="invisible"/></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
 </body>
 </html>

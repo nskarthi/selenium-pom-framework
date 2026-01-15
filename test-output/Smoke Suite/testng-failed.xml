@@ -4,13 +4,27 @@
   <test thread-count="2" parallel="methods" name="Chrome(failed)">
     <parameter name="browser" value="CHROME"/>
     <classes>
-      <class name="org.selenium.pom.tests.AddToCartTest">
+      <class name="org.selenium.pom.tests.MyFirstTestCase">
         <methods>
+          <include name="testGuestCheckoutOfOneProductUsingDirectBankTransfer"/>
           <include name="startDriver"/>
-          <include name="addFeaturedProductsToCart"/>
+          <include name="testLoggedInUserCheckoutUsingDirectBankTransfer"/>
           <include name="quitDriver"/>
         </methods>
-      </class> <!-- org.selenium.pom.tests.AddToCartTest -->
+      </class> <!-- org.selenium.pom.tests.MyFirstTestCase -->
     </classes>
   </test> <!-- Chrome(failed) -->
+  <test thread-count="2" parallel="methods" name="Firefox(failed)">
+    <parameter name="browser" value="FIREFOX"/>
+    <classes>
+      <class name="org.selenium.pom.tests.MyFirstTestCase">
+        <methods>
+          <include name="testGuestCheckoutOfOneProductUsingDirectBankTransfer"/>
+          <include name="startDriver"/>
+          <include name="testLoggedInUserCheckoutUsingDirectBankTransfer"/>
+          <include name="quitDriver"/>
+        </methods>
+      </class> <!-- org.selenium.pom.tests.MyFirstTestCase -->
+    </classes>
+  </test> <!-- Firefox(failed) -->
 </suite> <!-- Failed suite [Smoke Suite] -->

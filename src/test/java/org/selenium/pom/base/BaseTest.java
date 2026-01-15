@@ -11,6 +11,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.selenium.pom.factory.DriverManager;
 import org.selenium.pom.utils.CookieUtils;
+import org.selenium.pom.utils.DateTimeUtils;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -44,14 +45,14 @@ public class BaseTest {
 		// Safe access via the getter
 		if (getDriver() != null) {
 			System.out.println("CURRENT THREAD: " + Thread.currentThread().getId());
-			
+			System.out.println("Test Status: " + result.getStatus());
 			if (result.getStatus() == ITestResult.FAILURE) {
 				File filepath = new File("screenshots" + File.separator + browser + File.separator
-						+ result.getTestClass().getRealClass().getSimpleName() + "_" + result.getMethod().getMethodName()
-						+ ".png");
+						+ result.getTestClass().getRealClass().getSimpleName() + "_"
+						+ result.getMethod().getMethodName() + "_" + DateTimeUtils.getTimestamp() + ".png");
+				System.out.println("Screenshot path: " + filepath.getAbsolutePath());
 				takeScreenshot(filepath);
-			}			
-			
+			}
 			getDriver().quit();
 			driver.remove(); // Important: prevents memory leaks in ThreadLocal
 		}
@@ -66,8 +67,18 @@ public class BaseTest {
 	}
 
 	public void takeScreenshot(File filepath) throws IOException {
-		File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-		FileUtils.copyFile(screenshotFile, filepath);
+		System.out.println("Going to capture screenshot 1");
+
+		// Retrieve the driver instance from ThreadLocal using getDriver()
+		WebDriver activeDriver = getDriver();
+		if (activeDriver != null) {
+			File screenshotFile = ((TakesScreenshot) activeDriver).getScreenshotAs(OutputType.FILE);
+			System.out.println("Copying file");
+			FileUtils.copyFile(screenshotFile, filepath);
+			System.out.println("Captured screenshot");
+		} else {
+			System.out.println("Driver was null, cannot capture screenshot.");
+		}
 	}
-	
+
 }

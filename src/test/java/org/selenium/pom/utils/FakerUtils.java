@@ -7,4 +7,5 @@ public class FakerUtils {
 		Faker faker = new Faker();
 		return faker.number().randomNumber();
 	}
+
 }
