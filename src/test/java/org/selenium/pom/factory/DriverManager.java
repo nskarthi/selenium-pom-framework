@@ -115,6 +115,7 @@ public class DriverManager {
 
 		// Prevent "First Run" tabs and welcome screens
 		options.addArguments("--disable-infobars");
+		options.addArguments("--headless");
 		options.setProfile(profile);
 		return options;
 	}
