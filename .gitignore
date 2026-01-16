@@ -6,6 +6,7 @@ build/
 allure-results/
 OMCodeRepo/
 test-output/
+screenshots/
 
 # Selenium logs & drivers
 *.log
