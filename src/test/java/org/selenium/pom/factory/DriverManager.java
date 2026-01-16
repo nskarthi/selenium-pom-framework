@@ -15,6 +15,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.selenium.pom.constants.BrowserType;
 
 public class DriverManager {
+	boolean isHeadless;
 
 	public WebDriver initializeDriver() {
 		// 1. Create a map to store the browser preferences
@@ -55,6 +56,7 @@ public class DriverManager {
 	public WebDriver initializeDriver(String browser) {
 		// second parameter is default value
 		String runBrowser = System.getProperty("browser", browser);
+		isHeadless = System.getProperty("headless", "false").equalsIgnoreCase("true");
 		WebDriver driver;
 
 		switch (BrowserType.valueOf(runBrowser.trim())) {
@@ -74,7 +76,9 @@ public class DriverManager {
 			throw new IllegalArgumentException("Invalid browser name: " + browser);
 		}
 
-		driver.manage().window().maximize();
+		if (!isHeadless)
+		    driver.manage().window().maximize();
+
 		// Best practice: Keep implicit wait at 0 and use Explicit Waits (WebDriverWait)
 		// in Page Objects
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
@@ -96,6 +100,15 @@ public class DriverManager {
 		// 3. Initialize ChromeOptions and add the preferences
 		ChromeOptions options = new ChromeOptions();
 		options.setExperimentalOption("prefs", prefs);
+		if (isHeadless) {
+	        options.addArguments("--headless=new");
+	        // Force the size strictly for headless
+	        options.addArguments("--window-size=1920,1080");
+	        options.addArguments("--disable-gpu"); 
+	        options.addArguments("--force-device-scale-factor=1");
+	    } else {
+	        options.addArguments("--start-maximized");
+	    }
 		// Optional: Hide the "Chrome is being controlled by automated software" info
 		// bar from the browser
 		options.setExperimentalOption("excludeSwitches", new String[] { "enable-automation" });
@@ -115,7 +128,9 @@ public class DriverManager {
 
 		// Prevent "First Run" tabs and welcome screens
 		options.addArguments("--disable-infobars");
-		options.addArguments("--headless");
+		options.addArguments("--window-size=1920,1080");
+		if (isHeadless)
+			options.addArguments("--headless");
 		options.setProfile(profile);
 		return options;
 	}
@@ -134,8 +149,11 @@ public class DriverManager {
 		// 3. Initialize EdgeOptions and add the preferences
 		EdgeOptions options = new EdgeOptions();
 		options.setExperimentalOption("prefs", prefs);
+		options.addArguments("--window-size=1920,1080");
 		// Hide the "Edge is being controlled..." info bar from the browser
 		options.setExperimentalOption("excludeSwitches", new String[] { "enable-automation" });
+		if (isHeadless)
+			options.addArguments("--headless");
 		return options;
 	}
 }

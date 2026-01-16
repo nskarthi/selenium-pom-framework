@@ -29,6 +29,7 @@
 					<suiteXmlFiles>
 						<suiteXmlFile>${suiteFile}</suiteXmlFile>
 						<!--command line: mvn clean test -DsuiteFile=testng_smoke.xml,testng_regression.xml-->
+						<!--command line: mvn clean test -DsuiteFile=testng_draft.xml -Dheadless=true-->
 					</suiteXmlFiles>
 				</configuration>
 				<dependencies>
